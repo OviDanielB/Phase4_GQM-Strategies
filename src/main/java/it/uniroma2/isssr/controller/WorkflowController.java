@@ -50,9 +50,9 @@ public interface WorkflowController {
     ResponseEntity<?> getWorkflows() throws JsonRequestException;
 
 	/**
-	 * This is the endpoint to deploy a workflow model in Activiti if it does not exist
+	 * This is the endpoint to deploy a workflow model42 in Activiti if it does not exist
 	 * @param deployBody The info about the workflow to deploy
-	 * @return 200 OK if model deployed
+	 * @return 200 OK if model42 deployed
 	 * @throws JsonRequestException
 	 * @throws MetaWorkflowNotDeployedException
 	 * @throws ModelXmlNotFoundException

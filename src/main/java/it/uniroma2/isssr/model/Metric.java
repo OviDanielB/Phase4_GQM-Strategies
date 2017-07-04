@@ -1,7 +1,6 @@
 package it.uniroma2.isssr.model;
 
 import com.fasterxml.jackson.annotation.*;
-import org.springframework.data.annotation.Id;
 
 import javax.annotation.Generated;
 import java.util.ArrayList;
@@ -14,15 +13,8 @@ import java.util.Map;
 @JsonPropertyOrder({ "busVersion", "ordered", "set", "max", "entityType", "secretToken", "creatorId", "description",
 		"creationDate", "version", "releaseNote", "hasMax", "tags", "unit", "min", "scaleType", "hasUserDefinedList",
 		"userDefinedList", "name", "lastVersionDate", "id", "state", "hasMin", "metricatorId" })
-
-/**
- * This class represents the metric object that Phase 2.2 b has been defined
- *
- */
 public class Metric {
 
-	@Id
-	private String _id;
 	@JsonProperty("busVersion")
 	private String busVersion;
 	@JsonProperty("ordered")
@@ -73,14 +65,6 @@ public class Metric {
 	private String metricatorId;
 	@JsonIgnore
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-
-	public String get_id() {
-		return _id;
-	}
-
-	public void set_id(String _id) {
-		this._id = _id;
-	}
 
 	/**
 	 * 

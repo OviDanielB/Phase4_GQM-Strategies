@@ -221,7 +221,7 @@ public class JsonRequestActiviti {
 
 	/**
 	 * POST to "restAddress" a MultiPart filled with content of a Xml
-	 * MetaWorkflow Model
+	 * MetaWorkflow42 Model
 	 * 
 	 * @param restAddress
 	 *            Address of rest Api of Activiti Rest (from
@@ -229,7 +229,7 @@ public class JsonRequestActiviti {
 	 * @param T
 	 *            Class of response to be received
 	 * @param metaWorkflowName
-	 *            Name of MetaWorkflow
+	 *            Name of MetaWorkflow42
 	 * @param multiPartContent
 	 *            Data to sent in a MultiPart
 	 * 
@@ -323,12 +323,12 @@ public class JsonRequestActiviti {
 
 	/**
 	 * Build an HTTP request or response entity, consisting of headers and
-	 * MultiPart Body filled with MetaWorkflow Model
+	 * MultiPart Body filled with MetaWorkflow42 Model
 	 * 
 	 * @param name
-	 *            Name of MetaWorkflow
+	 *            Name of MetaWorkflow42
 	 * @param multiPartContent
-	 *            MetaWorkflow Model wrapped in a String
+	 *            MetaWorkflow42 Model wrapped in a String
 	 * 
 	 * @return HTTP request or response entity, consisting of headers and
 	 *         MultiPart Body

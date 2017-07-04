@@ -4,7 +4,7 @@ package it.uniroma2.isssr.Exception;
 public class BusinessWorkflowNotCreatedException extends Exception {
 
 	private static String messagePrefix = "Error with Activiti REST server; "
-			+ "No business workflow model found";
+			+ "No business workflow model42 found";
 	
 	public BusinessWorkflowNotCreatedException() {
 		super(messagePrefix);

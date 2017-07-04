@@ -62,7 +62,7 @@ public class MetaWorkflow extends Workflow {
 	}
 
 	/**
-	 * Initialize variables of MetaWorkflow Process-instance.
+	 * Initialize variables of MetaWorkflow42 Process-instance.
 	 * 
 	 * @return List of variables initialized.
 	 */
@@ -110,7 +110,7 @@ public class MetaWorkflow extends Workflow {
 	
 	
 	/**
-	 * Update some of MetaWorkflow Process Instance variables with activiti
+	 * Update some of MetaWorkflow42 Process Instance variables with activiti
 	 * rest.
 	 * 
 	 * @param jsonRequestActiviti
@@ -119,7 +119,7 @@ public class MetaWorkflow extends Workflow {
 	 *            Message reported by an user regarding an issue in the business
 	 *            workflow.
 	 * @param metaWorkflowProcessInstanceId
-	 *            MetaWorkflow Process Instance Id
+	 *            MetaWorkflow42 Process Instance Id
 	 * 
 	 * @throws JsonRequestException
 	 *             If there is an error during rest request.

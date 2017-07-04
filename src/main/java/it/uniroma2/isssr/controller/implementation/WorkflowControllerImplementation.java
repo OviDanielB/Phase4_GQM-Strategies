@@ -52,7 +52,7 @@ public class WorkflowControllerImplementation implements WorkflowController {
 	private WorkflowDataRepository workflowDataRepository;
 
 	@RequestMapping(value = "/workflows/create", method = RequestMethod.POST)
-	@ApiOperation(value = "Create Workflow", notes = "This endpoint creates and starts a meta-workflow instance and creates an empty model of the related business workflow")
+	@ApiOperation(value = "Create Workflow", notes = "This endpoint creates and starts a meta-workflow instance and creates an empty model42 of the related business workflow")
 	@ApiResponses(value = {
 			@ApiResponse(code = 500, message = "See error code and message", response = ErrorResponse.class) })
 	public ResponseEntity<String> createWorkflow(HttpServletResponse httpServletResponse,

@@ -50,7 +50,7 @@ public class HostSettings {
 	@Value("${host.activiti.rest.endpoint.processdefinitions}")
 	private String activitiRestEndpointProcessDefinitions;
 
-	@Value("${host.activiti.rest.endpoint.processistances.model.suffix}")
+	@Value("${host.activiti.rest.endpoint.processistances.model42.suffix}")
 	private String activitiRestEndpointProcessDefinitionsModelSuffix;
 
 	@Value("${host.activiti.rest.endpoint.processistances.image.suffix}")

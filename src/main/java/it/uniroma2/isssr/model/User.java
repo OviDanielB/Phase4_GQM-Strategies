@@ -7,9 +7,6 @@ import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.List;
 
-/**
- * This class represents a User taken from the bus
- */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class User {
 
@@ -41,7 +38,7 @@ public class User {
 	 */
 
 	public User(String username, String password, String role, String name, String surname, Date dob, String gender,
-                String pic) {
+			String pic) {
 		this.username = username;
 		this.password = password;
 		this.role = role;

@@ -5,10 +5,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-/**
- * This class represents the actual status of the system. The status is 0 if the system is not ready, 1 if ready.
- *
- */
 @Document
 public class SystemState {
 	@Id

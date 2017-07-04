@@ -3,7 +3,7 @@ package it.uniroma2.isssr.Exception;
 @SuppressWarnings("serial")
 public class ModelXmlNotFoundException extends Exception {
 
-	private static String messagePrefix = "No workflow model xml returned";
+	private static String messagePrefix = "No workflow model42 xml returned";
 	
 	private static String buildMessage(){
 		
