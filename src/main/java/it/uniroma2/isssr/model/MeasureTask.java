@@ -1,10 +1,18 @@
 package it.uniroma2.isssr.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import it.uniroma2.isssr.model.validation.ValidationOp;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
+
+/**
+ * This class represents a Measure Task in which there are task id, who is responsible to measure,
+ * if the measure is automatic or manual (means field), associated metric and a list of validations id.
+ *
+ */
 
 @Document
 public class MeasureTask {
@@ -16,13 +24,14 @@ public class MeasureTask {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	private Metric metric;
 	@JsonInclude(JsonInclude.Include.NON_NULL)
-	// automatic or manual
 	private String means;
 	@JsonInclude(JsonInclude.Include.NON_NULL)
-	// who is responsible to measure
 	private String responsible;
 	@JsonInclude(JsonInclude.Include.NON_NULL)
-	private List<String> validationIdList;
+	private String source;
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@DBRef
+    private List<ValidationOp> validationIdList;
 
 	public String get_id() {
 		return _id;
@@ -64,11 +73,19 @@ public class MeasureTask {
 		this.responsible = responsible;
 	}
 
-	public List<String> getValidationIdList() {
+	public String getSource() {
+		return source;
+	}
+
+	public void setSource(String source) {
+		this.source = source;
+	}
+
+	public List<ValidationOp> getValidationIdList() {
 		return validationIdList;
 	}
 
-	public void setValidationIdList(List<String> validationIdList) {
+	public void setValidationIdList(List<ValidationOp> validationIdList) {
 		this.validationIdList = validationIdList;
 	}
 

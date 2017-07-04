@@ -3,7 +3,7 @@ package it.uniroma2.isssr.Exception;
 @SuppressWarnings("serial")
 public class IllegalSaveWorkflowRequestBodyException extends Exception {
 
-	private static String messagePrefix = "Incomplete request; please specify modelId, name and scope.";
+	private static String messagePrefix = "Incomplete request; please specify modelId and name.";
 	
 	
 	public IllegalSaveWorkflowRequestBodyException() {

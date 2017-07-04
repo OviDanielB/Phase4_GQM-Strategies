@@ -16,6 +16,13 @@ import java.util.List;
 				+ "'businessWorkflowProcessDefinitionId':1, " + "'businessWorkflowProcessInstanceId':1}", unique = true)
 
 })
+
+/**
+ * This class represents a Workflow in the whole his completeness, 
+ * there are name, process instance and process definition of businessWorkflow and metaWorkflow.
+ * Is present also a list of Measure Task associated.
+ *
+ */
 public class WorkflowData {
 	@Id
 	@JsonInclude(JsonInclude.Include.NON_NULL)
