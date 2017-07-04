@@ -3,6 +3,17 @@ package it.uniroma2.isssr;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Configuration file necessary for setting following field (see also
+ * application.properites):
+ * <ul>
+ * <li>back-end address, port, username and password</li>
+ * <li>mongoDB endpoint</li>
+ * <li>Activiti rest endpoint</li>
+ * <li>bus endpoint</li>
+ * </ul>
+ */
+
 @Configuration
 public class HostSettings {
 
@@ -84,6 +95,12 @@ public class HostSettings {
 	@Value("${host.activiti.task.variable.assignee}")
 	private String activitiTaskVariableAssignee;
 
+	@Value("${host.activiti.task.variable.errormessage}")
+	private String activitiTaskVariableErrormessage;
+
+	@Value("${host.activiti.task.variable.idcollecteddata}")
+	private String activitiTaskVariableIdCollectedData;
+
 	@Value("${host.metaworkflow.prefix}")
 	private String metaworkflowPrefix;
 
@@ -117,8 +134,11 @@ public class HostSettings {
 	@Value("${host.mongodb.port}")
 	private Integer mongodbPort;
 
-	@Value("${host.webapp.url}")
-	private String webappUrl;
+	@Value("${host.webapp.endpoint.backend}")
+	private String webappBackendEndpoint;
+
+	@Value("${host.webapp.endpoint.frontend}")
+	private String webappFrontendEndpoint;
 
 	@Value("${host.webapp.endpoint.deploy}")
 	private String deployEndpoint;
@@ -135,7 +155,7 @@ public class HostSettings {
 	@Value("${host.webapp.endpoint.validation-planning}")
 	private String validationPlanningEndpoint;
 
-	@Value("${host.webapp.endpoint.workflowData-plans-uri}")
+	@Value("${host.webapp.endpoint.workflowdata-plans-uri}")
 	private String workflowDataPlansUri;
 
 	@Value("${host.bus}")
@@ -144,8 +164,42 @@ public class HostSettings {
 	@Value("${host.bus.address}")
 	private String busAddress;
 
-	public String getWebappUrl() {
-		return webappUrl;
+	@Value("${host.bus.port}")
+	private String busPort;
+
+	@Value("${host.bus.endpoint}")
+	private String busEndpoint;
+
+	@Value("${host.bus.phase.name}")
+	private String phaseName;
+
+	@Value("${host.bus.phase.typeObject.user.create}")
+	private String userCreateTypeObject;
+	
+	@Value("${host.bus.phase.typeObject.user.delete}")
+	private String userDeleteTypeObject;
+
+	@Value("${host.webapp3242.endpoint.test.backend}")
+	private String webapp3242EndpointTestBackend;
+
+	@Value("${host.webapp3242.endpoint.backend}")
+	private String webapp3242EndpointBackend;
+	
+	@Value("${host.webapp3242.endpoint.completetask}")
+	private String webapp3242EndpointCompleteTask;
+	
+	@Value("${host.webapp3242.endpoint.completevalidationtask}")
+	private String webapp3242EndpointCompleteValidationTask;
+	
+	@Value("{host.webapp3242.modeler.uri}")
+	private String webapp3242EndpointModeler;
+
+	public String getWebappBackendUri() {
+		return getConnectionUrl() + webappBackendEndpoint;
+	}
+
+	public String getWebappFrontendUri() {
+		return getConnectionUrl() + webappFrontendEndpoint;
 	}
 
 	public String getDeployEndpoint() {
@@ -336,6 +390,14 @@ public class HostSettings {
 		return activitiTaskVariableAssignee;
 	}
 
+	public String getActivitiTaskVariableErrormessage() {
+		return activitiTaskVariableErrormessage;
+	}
+
+	public String getActivitiTaskVariableIdCollectedData() {
+		return activitiTaskVariableIdCollectedData;
+	}
+
 	public Boolean isBus() {
 		return bus;
 	}
@@ -343,5 +405,67 @@ public class HostSettings {
 	public String getBusAddress() {
 		return busAddress;
 	}
+
+	public String getWebappBackendEndpoint() {
+		return webappBackendEndpoint;
+	}
+
+	public String getWebappFrontendEndpoint() {
+		return webappFrontendEndpoint;
+	}
+
+	public String getBusPort() {
+		return busPort;
+	}
+
+	public String getBusEndpoint() {
+		return busEndpoint;
+	}
+
+	public String getBusConnectionUrl() {
+		return busAddress + ":" + busPort;
+	}
+
+	public String getBusUri() {
+		return getBusConnectionUrl() + busEndpoint;
+	}
+
+	public String getWorkflowDataPlansUri() {
+		return workflowDataPlansUri;
+	}
+
+	public String getPhaseName() {
+		return phaseName;
+	}
+
+	public String getUserCreateTypeObject() {
+		return userCreateTypeObject;
+	}
+	
+	public String getUserDeleteTypeObject() {
+		return userDeleteTypeObject;
+	}
+
+	public String getWebapp3242EndpointTestBackend() {
+		return webapp3242EndpointTestBackend;
+	}
+
+	public String getWebapp3242EndpointBackend() {
+		return webapp3242EndpointBackend;
+	}
+
+	public String getWebapp3242EndpointCompleteValidationTask() {
+		return webapp3242EndpointCompleteValidationTask;
+	}
+
+	public String getWebapp3242EndpointCompleteTask() {
+		return webapp3242EndpointCompleteTask;
+	}
+
+	public String getWebapp3242EndpointModeler() {
+		return webapp3242EndpointModeler;
+	}
+	
+	
 
 }

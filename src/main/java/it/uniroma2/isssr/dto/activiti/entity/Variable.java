@@ -9,7 +9,7 @@ import javax.annotation.Generated;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({ "name", "value", "valueUrl", "scope", "dueDate", "type"})
-public class Variable {
+public class Variable implements ActivitiEntity {
 	
 	@JsonProperty("name")
 	private String name;

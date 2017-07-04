@@ -4,16 +4,24 @@ package it.uniroma2.isssr.Exception;
 public class IllegalCharacterRequestException extends Exception {
 
 	private static String messagePrefix = "Invalid character in name ";
-	
-	private static String buildMessage(String name, char character){
-		
+
+	private static String buildMessage(String name, char character) {
+
 		return messagePrefix + name + " : " + character;
 	}
-	
-	
+
+	private static String buildMessage(String name) {
+
+		return messagePrefix + name;
+	}
+
 	public IllegalCharacterRequestException() {
 	}
-	
+
+	public IllegalCharacterRequestException(String name) {
+		super(buildMessage(name));
+	}
+
 	public IllegalCharacterRequestException(String name, char character) {
 		super(buildMessage(name, character));
 	}

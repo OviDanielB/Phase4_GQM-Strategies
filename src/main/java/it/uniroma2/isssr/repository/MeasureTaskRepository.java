@@ -5,6 +5,10 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;
 
+/**
+ * MongoRepository for MeasureTask
+ *
+ */
 public interface MeasureTaskRepository extends MongoRepository<MeasureTask, String> {
 
 	public List<MeasureTask> findByTaskId(String taskId);
