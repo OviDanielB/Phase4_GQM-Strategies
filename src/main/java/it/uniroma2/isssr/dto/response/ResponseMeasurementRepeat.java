@@ -3,8 +3,8 @@ package it.uniroma2.isssr.dto.response;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import it.uniroma2.isssr.model.CollectedData;
-import it.uniroma2.isssr.model.MeasureTask;
+import it.uniroma2.isssr.model.phase41.CollectedData;
+import it.uniroma2.isssr.model.phase41.MeasureTask;
 
 import javax.annotation.Generated;
 

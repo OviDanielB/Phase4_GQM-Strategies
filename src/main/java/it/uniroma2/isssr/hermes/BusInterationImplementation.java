@@ -1,12 +1,12 @@
 package it.uniroma2.isssr.hermes;
 
-import it.uniroma2.isssr.controller42.StrategicPlanService;
-import it.uniroma2.isssr.model42.StrategicPlan;
-import it.uniroma2.isssr.model42.Strategy;
-import it.uniroma2.isssr.model42.rest.response.DTOResponseStrategy;
-import it.uniroma2.isssr.repositories.StrategicPlanRepository;
-import it.uniroma2.isssr.repositories.StrategyRepository;
-import it.uniroma2.isssr.utils.GlobalConst;
+import it.uniroma2.isssr.services.phase42.StrategicPlanService;
+import it.uniroma2.isssr.model.phase42.StrategicPlan;
+import it.uniroma2.isssr.model.phase42.Strategy;
+import it.uniroma2.isssr.model.phase42.rest.response.DTOResponseStrategy;
+import it.uniroma2.isssr.repositories.phase42.StrategicPlanRepository;
+import it.uniroma2.isssr.repositories.phase42.StrategyRepository;
+import it.uniroma2.isssr.utils.phase42.GlobalConst;
 import it.uniroma2.isssr.integrazione.BusException;
 import it.uniroma2.isssr.integrazione.BusMessage;
 import org.json.JSONException;

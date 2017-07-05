@@ -3,6 +3,7 @@ package it.uniroma2.isssr.dto.activiti.entity;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import it.uniroma2.isssr.dto.activiti.entity.ActivitiEntity;
 
 import javax.annotation.Generated;
 
@@ -19,9 +20,20 @@ public class TaskVariable implements ActivitiEntity {
 	private String operation;
 	@JsonProperty("type")
 	private String type;
-	
+
+	public String getScope() {
+		return scope;
+	}
+
+	public void setScope(String scope) {
+		this.scope = scope;
+	}
+
+	@JsonProperty("scope")
+	private String scope;
+
 	public TaskVariable(){}
-	
+
 	public TaskVariable(String name, String value, String operation, String type) {
 		super();
 		this.name = name;
@@ -29,7 +41,7 @@ public class TaskVariable implements ActivitiEntity {
 		this.operation = operation;
 		this.type = type;
 	}
-	
+
 	@JsonProperty("name")
 	public String getName() {
 		return name;
@@ -38,7 +50,7 @@ public class TaskVariable implements ActivitiEntity {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	@JsonProperty("value")
 	public String getValue() {
 		return value;
@@ -47,7 +59,7 @@ public class TaskVariable implements ActivitiEntity {
 	public void setValue(String value) {
 		this.value = value;
 	}
-	
+
 	@JsonProperty("operation")
 	public String getOperationl() {
 		return operation;
@@ -56,7 +68,7 @@ public class TaskVariable implements ActivitiEntity {
 	public void setOperation(String operation) {
 		this.operation = operation;
 	}
-	
+
 	@JsonProperty("type")
 	public String getType() {
 		return type;

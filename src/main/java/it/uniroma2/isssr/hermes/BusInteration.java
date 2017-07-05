@@ -2,7 +2,7 @@
 package it.uniroma2.isssr.hermes;
 
 
-import it.uniroma2.isssr.model42.rest.response.DTOResponseStrategy;
+import it.uniroma2.isssr.model.phase42.rest.response.DTOResponseStrategy;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 

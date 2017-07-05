@@ -1,6 +1,6 @@
 package it.uniroma2.isssr.configuration;
 
-import it.uniroma2.isssr.utils.Gqm32Properties;
+import it.uniroma2.isssr.utils.phase42.Gqm32Properties;
 import com.mongodb.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

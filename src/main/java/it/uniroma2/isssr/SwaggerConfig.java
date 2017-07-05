@@ -16,7 +16,7 @@ public class SwaggerConfig {
 	@Bean
 	public Docket api() {
 		return new Docket(DocumentationType.SWAGGER_2).select()
-				.apis(RequestHandlerSelectors.basePackage("it.uniroma2.isssr.controller42")).paths(PathSelectors.any())
+				.apis(RequestHandlerSelectors.basePackage("it.uniroma2.isssr.service42")).paths(PathSelectors.any())
 				.build().useDefaultResponseMessages(false).apiInfo(apiInfo());
 	}
 
