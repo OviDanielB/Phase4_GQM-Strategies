@@ -61,7 +61,7 @@ import java.util.List;
  */
 
 @Component
-@ComponentScan(basePackages ={"it.uniroma2.gqm3141.repository"})
+//@ComponentScan(basePackages ={"it.uniroma2.gqm3141.repository"})
 
 public class Bus2fase32Implementation implements Bus2fase32{
 
