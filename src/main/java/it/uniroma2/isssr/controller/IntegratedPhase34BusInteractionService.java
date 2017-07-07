@@ -9,9 +9,11 @@ import it.uniroma2.isssr.integrazione.BusException;
 import it.uniroma2.isssr.integrazione.BusMessage;
 import it.uniroma2.isssr.model.phase41.MeasureTask;
 import it.uniroma2.isssr.model.phase41.WorkflowData;
+import it.uniroma2.isssr.model.phase42.StrategicPlan;
 import it.uniroma2.isssr.repositories.phase41.MeasureTaskRepository;
 import it.uniroma2.isssr.repositories.phase41.SystemStateRepository;
 import it.uniroma2.isssr.repositories.phase41.WorkflowDataRepository;
+import it.uniroma2.isssr.repositories.phase42.StrategicPlanRepository;
 import it.uniroma2.isssr.utils.BusObjectTypes;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +46,9 @@ public class IntegratedPhase34BusInteractionService {
 
     @Autowired
     private MeasureTaskRepository measureTaskRepository;
+
+    @Autowired
+    private StrategicPlanRepository strategicPlanRepository;
 
 
     /**
@@ -233,5 +238,51 @@ public class IntegratedPhase34BusInteractionService {
                 }
             }
         }
+    }
+
+    public boolean updateLocalStrategicPlans() {
+        JSONObject jo = new JSONObject();
+        jo.put("objIdLocalToPhase", "");
+        jo.put("typeObj", BusObjectTypes.STRATEGIC_PLAN);
+        jo.put("instance", "");
+        jo.put("busVersion", "");
+        jo.put("tags", "[]");
+
+        try {
+
+            BusMessage message = new BusMessage(BusMessage.OPERATION_READ,"phase3", jo.toString());
+            String busResponse = message.send(hostSettings.getBusUri());
+            System.out.println(busResponse);
+
+            ObjectMapper mapper = new ObjectMapper();
+
+            List<BusReadResponse> readResponseList ;
+            try {
+                readResponseList = mapper.readValue(
+                        busResponse,
+                        mapper.getTypeFactory().constructCollectionType(List.class,
+                                BusReadResponse.class));
+            } catch (JsonMappingException e){
+                return false;
+            }
+
+            // empty old measure tasks
+            strategicPlanRepository.deleteAll();
+
+            for(BusReadResponse response : readResponseList ){
+                StrategicPlan strategicPlan = mapper.treeToValue(response.getPayload(), StrategicPlan.class);
+
+                strategicPlanRepository.save(strategicPlan);
+            }
+
+
+        } catch (BusException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        return true;
     }
 }

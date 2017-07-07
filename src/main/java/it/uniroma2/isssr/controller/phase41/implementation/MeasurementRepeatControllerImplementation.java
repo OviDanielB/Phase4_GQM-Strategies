@@ -53,6 +53,7 @@ public class MeasurementRepeatControllerImplementation implements MeasurementRep
 
 		if (measureTask != null) {
 
+
 			CollectedData collectedData = (CollectedData) collectedDataRepository.findOne(collectedDataId);
 
 			if (collectedData != null)

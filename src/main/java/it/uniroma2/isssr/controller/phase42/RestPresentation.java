@@ -1,14 +1,13 @@
 
 package it.uniroma2.isssr.controller.phase42;
 
+import it.uniroma2.isssr.model.phase42.rest.DTOStrategy;
 import it.uniroma2.isssr.services.phase42.ActivitiTaskService;
 import it.uniroma2.isssr.services.phase42.StrategyService;
 import it.uniroma2.isssr.model.phase42.rest.response.DTOResponseStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>Title: RestPresentation</p>
@@ -30,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @RestController
+@CrossOrigin(origins = "http://localhost:8080")
 @RequestMapping("/strategy/")
 public class RestPresentation {
 	
@@ -43,20 +43,22 @@ public class RestPresentation {
 
 	
 
-	/********************************
-	 * Questo metodo a noi non serve
-	 * 
-	 * @param dtoStrategy, che lego dal body della richiesta
-	 * @return il messaggio di risposta
-	 */
-/* 			TODO REMOVE PHASE3
-	@RequestMapping(value = "/createStrategy", method = RequestMethod.POST)
-	public ResponseEntity<DTOResponseStrategy> createStrategy(@RequestBody DTOStrategy dtoStrategy) {
+//	/********************************
+//	 * Questo metodo a noi non serve
+//	 *
+//	 * @param dtoStrategy, che lego dal body della richiesta
+//	 * @return il messaggio di risposta
+//	 */
 
-		return strategyService.createStrategy(dtoStrategy.getName(), dtoStrategy.getDescription(), dtoStrategy.getOrganizationalUnit(), dtoStrategy.getOrganizationalUnitId());
+/* 			TODO REMOVE PHASE3*/
 
-	}
-*/
+//	@RequestMapping(value = "/createStrategy", method = RequestMethod.POST)
+//	public ResponseEntity<DTOResponseStrategy> createStrategy(@RequestBody DTOStrategy dtoStrategy) {
+//
+//		return strategyService.createStrategy(dtoStrategy.getName(), dtoStrategy.getDescription(), dtoStrategy.getOrganizationalUnit(), dtoStrategy.getOrganizationalUnitId());
+//
+//	}
+
 
 	/**
 	 * Questo metodo deve essere richiesto al bus!
@@ -64,7 +66,7 @@ public class RestPresentation {
 	 *
 	 * @return the strategies
 	 */
-	
+	@CrossOrigin(origins = "http://localhost:8080")
 	@RequestMapping(value = "/getStrategies", method = RequestMethod.GET)
 	public ResponseEntity<DTOResponseStrategy> getStrategies() {
 
@@ -80,7 +82,7 @@ public class RestPresentation {
 	 *
 	 * @return the strategies
 	 */
-	
+
 	@RequestMapping(value = "/getStrategiesFree", method = RequestMethod.GET)
 	public ResponseEntity<DTOResponseStrategy> getStrategiesFree() {
 

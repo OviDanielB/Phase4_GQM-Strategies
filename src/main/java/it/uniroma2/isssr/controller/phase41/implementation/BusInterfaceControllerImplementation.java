@@ -160,9 +160,13 @@ public class BusInterfaceControllerImplementation implements
 					integratedPhase34BusInteractionService.updateLocalWorkflowData();
 
 					/** new measure task is available on bus*/
-				}else if(typeObj.equals(BusObjectTypes.MEASURE_TASK)){
+				}else if(typeObj.equals(BusObjectTypes.MEASURE_TASK)) {
 
 					integratedPhase34BusInteractionService.updateLocalMeasureTasks();
+
+					/** new strategic plan is available on bus*/
+				} else if(typeObj.equals(BusObjectTypes.STRATEGIC_PLAN)) {
+					integratedPhase34BusInteractionService.updateLocalStrategicPlans();
 
 				/** base64 encoded issue message */
 				} else if (typeObj.equals("base64-"
