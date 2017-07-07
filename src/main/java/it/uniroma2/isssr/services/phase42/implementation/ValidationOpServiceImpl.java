@@ -2,11 +2,11 @@ package it.uniroma2.isssr.services.phase42.implementation;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import it.uniroma2.isssr.bus.BusPhase4Interaction;
 import it.uniroma2.isssr.exception.*;
 import it.uniroma2.isssr.model.phase42.activiti.FlowElement;
 import it.uniroma2.isssr.dto.activiti.entity.TaskVariable;
 import it.uniroma2.isssr.services.phase42.ValidationOpService;
-import it.uniroma2.isssr.hermes.Bus2fase32;
 import it.uniroma2.isssr.model.phase42.rest.DTO;
 import it.uniroma2.isssr.model.phase42.rest.DTOActivitiTaskVariable;
 import it.uniroma2.isssr.model.phase42.rest.DTOValidationOp;
@@ -81,7 +81,7 @@ public class ValidationOpServiceImpl implements ValidationOpService {
 	ValidationPhase4 validationPhase4;
 	
 	@Autowired
-	Bus2fase32 bus2fase32; 
+	BusPhase4Interaction busPhase4InteractionImplementation;
 	/**
 	 * Metodo che restituisce una ResponseEntity, che contiene nel body un
 	 * JSON array contentente la lista di tutti i ValidationOp associati 
@@ -1103,7 +1103,7 @@ public class ValidationOpServiceImpl implements ValidationOpService {
 		//c'è una chiamata da effettuare al bus
 		System.out.println("sto per eseguire la chiamata al bus");
 		
-		String s = bus2fase32.saveValitatedDataOnBus(taskId);
+		String s = busPhase4InteractionImplementation.saveValitatedDataOnBus(taskId);
 		
 		System.out.println(s);
 		DTOResponseCollectedData dtoResponseCollectedData =

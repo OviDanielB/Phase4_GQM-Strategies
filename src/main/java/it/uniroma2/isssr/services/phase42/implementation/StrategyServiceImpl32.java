@@ -1,20 +1,12 @@
 
 package it.uniroma2.isssr.services.phase42.implementation;
 
+import it.uniroma2.isssr.bus.BusPhase4Interaction;
 import it.uniroma2.isssr.services.phase42.StrategyService;
-import it.uniroma2.isssr.hermes.Bus2fase32;
-import it.uniroma2.isssr.hermes.BusInteration;
-import it.uniroma2.isssr.hermes.BusInterationImplementation;
-import it.uniroma2.isssr.model.phase42.Strategy;
-import it.uniroma2.isssr.model.phase42.rest.DTOStrategyFrom1;
 import it.uniroma2.isssr.model.phase42.rest.response.DTOResponseStrategy;
 import it.uniroma2.isssr.repositories.phase42.StrategyRepository;
-import it.uniroma2.isssr.utils.phase42.Gqm32Properties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -58,28 +50,14 @@ public class StrategyServiceImpl32 implements StrategyService {
 
 	/** The bus interation implementation. */
 	@Autowired
-	BusInteration busInteration;
-
-	@Autowired
-	Bus2fase32 bus2fase32;
+	BusPhase4Interaction busInteration;
 
 	@Autowired
     MongoTemplate mongoTemplate;
-	
-	/** The bus interation implementation. */
-	@Autowired
-	BusInterationImplementation busInterationImplementation;
 
-	/**
-	 * Descrizione del metodo
-	 * 
-	 * @param
-	 * 
-	 * @return
-	 * 
-	 * @throws
-	 */
-	// n.b. a noi questo metodo non serve!
+
+
+/* TODO REMOVE PHASE3
 	@Override
 	public ResponseEntity<DTOResponseStrategy> createStrategy(String name, String description,
 															  String organizationalUnit, String organizationalUnitId) {
@@ -100,7 +78,7 @@ public class StrategyServiceImpl32 implements StrategyService {
 				HttpStatus.OK);
 		return responseEntity;
 
-	}
+	}*/
 
 	/**
 	 * 
@@ -131,27 +109,14 @@ public class StrategyServiceImpl32 implements StrategyService {
 		return busInteration.getStrategies();
 	}
 
-	@Override
-	public ResponseEntity<DTOResponseStrategy> getStrategy() {
-		/*
-		 * // TODO Auto-generated method stub
-		 * 
-		 * List<Strategy> strategies = strategyRepository.findAll();
-		 * 
-		 * DTOResponse dtoResponse = new DTOResponse();
-		 * dtoResponse.setStrategies(strategies); ResponseEntity<DTOResponse>
-		 * responseEntity = new
-		 * ResponseEntity<DTOResponse>(dtoResponse,HttpStatus.OK); return
-		 * responseEntity;
-		 */
-		return busInteration.getStrategies();
-	}
 
+
+/*		TODO REMOVE PHASE3
 	public ResponseEntity updateStrategyF1() {
 		// devo cancellare le strategy che non sono presenti nel DB, rinnovare
 		// quelle aggiornate e creare le strategie nuove
 		List<Strategy> actualStrategies = strategyRepository.findAll();
-		List<DTOStrategyFrom1> upToDateStr = bus2fase32.getStrategiesF1();
+		List<DTOStrategyFrom1> upToDateStr = busPhase4InteractionImplementation.getStrategiesF1();
 		// elimino le strategy non esistenti
 		for (Strategy strategy : actualStrategies) {
 			// DTOStrategyFrom1 dtos2 = new DTOStrategyFrom1();
@@ -197,50 +162,14 @@ public class StrategyServiceImpl32 implements StrategyService {
 				}
 
 			}
-			// else{
-			// if(dtoSF2.getRevisited()==gqm32Properties.state.MODIFIED){
-			// Query query = new Query();
-			// query.addCriteria(Criteria.where("name").is(dtoSF2.getTitle()));
-			// List<Strategy> mongoStrategy = mongoTemplate.find(query,
-			// Strategy.class);
-			// if(mongoStrategy.isEmpty())
-			// {
-			// Strategy newStrategy= new Strategy(dtoSF2.getTitle(),
-			// dtoSF2.getDescription(),
-			// dtoSF2.getOrganizationalUnitName(),
-			// dtoSF2.getOrganizationalUnitId(),
-			// dtoSF2.getRevisited(), dtoSF2.getVersion(), 0);
-			// strategyRepository.save(newStrategy);
-			// }else{
-			// Strategy toUpdate=mongoStrategy.get(0);
-			// toUpdate.setDescription(dtoSF2.getDescription());
-			// toUpdate.setOrganizationalUnit(dtoSF2.getOrganizationalUnitName());
-			// toUpdate.setOrganizationalUnitId(dtoSF2.getOrganizationalUnitId());
-			// toUpdate.setStatus(dtoSF2.getRevisited());
-			// //Inconsistenza dice di aver modificato la strategy invece non
-			// esisteva
-			//
-			// }
-			// }
-			// }
 		}
 
 		return new ResponseEntity<>(HttpStatus.OK);
-	}
+	}*/
 	
 	@Override
 	public ResponseEntity<DTOResponseStrategy> getStrategiesFree() {
-	/*	
-		// TODO Auto-generated method stub
-		
-		List<Strategy> strategies = strategyRepository.findAll();
-		
-		DTOResponse dtoResponse = new DTOResponse();
-		dtoResponse.setStrategies(strategies);
-		ResponseEntity<DTOResponse> responseEntity = new ResponseEntity<DTOResponse>(dtoResponse,HttpStatus.OK);
-		return responseEntity;
-		*/
-		return busInterationImplementation.getStrategiesFree();
+		return busInteration.getStrategiesFree();
 	}
 
 }

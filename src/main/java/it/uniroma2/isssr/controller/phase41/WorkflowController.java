@@ -14,29 +14,6 @@ import java.io.IOException;
 
 public interface WorkflowController {
 
-//	/**
-//	 * This is the endpoint to do the creation of a workflow, with the related meta-workflow.
-//	 * @param response The HttpServletResponse
-//	 * @param createWorkflowBody The info about the workflow to create
-//	 * @return 201 CREATED if workflow created
-//	 * @throws UnsupportedEncodingException
-//	 * @throws IOException
-//	 * @throws IllegalCharacterRequestException
-//	 * @throws ActivitiEntityAlreadyExistsException
-//	 * @throws JsonRequestException
-//	 * @throws MetaWorkflowNotDeployedException
-//	 * @throws MetaWorkflowNotStartedException
-//	 * @throws BusinessWorkflowNotCreatedException
-//	 * @throws ModelXmlNotFoundException
-//	 * @throws ProcessDefinitionNotFoundException
-//	 * @throws JsonRequestConflictException
-//	 */
-//	@RequestMapping(value = "/workflows/create", method = RequestMethod.POST)
-//    ResponseEntity<?> createWorkflow(HttpServletResponse response,
-//                                     @RequestBody PostCreateWorkflow createWorkflowBody) throws UnsupportedEncodingException,
-//			IOException, IllegalCharacterRequestException, ActivitiEntityAlreadyExistsException, JsonRequestException,
-//			MetaWorkflowNotDeployedException, MetaWorkflowNotStartedException, BusinessWorkflowNotCreatedException,
-//			ModelXmlNotFoundException, ProcessDefinitionNotFoundException, JsonRequestConflictException;
 
 	/**
 	 * This is the endpoint to get all workflows in Activiti
@@ -47,7 +24,7 @@ public interface WorkflowController {
     ResponseEntity<?> getWorkflows() throws JsonRequestException;
 
 	/**
-	 * This is the endpoint to deploy a workflow model42 in Activiti if it does not exist
+	 * This is the endpoint to deploy a workflow model in Activiti if it does not exist
 	 * @param deployBody The info about the workflow to deploy
 	 * @return 200 OK if model42 deployed
 	 * @throws JsonRequestException

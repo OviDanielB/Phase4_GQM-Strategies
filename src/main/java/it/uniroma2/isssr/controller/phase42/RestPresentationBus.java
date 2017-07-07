@@ -1,13 +1,8 @@
 package it.uniroma2.isssr.controller.phase42;
 
+import it.uniroma2.isssr.bus.BusPhase4Interaction;
 import it.uniroma2.isssr.services.phase42.StrategyService;
-import it.uniroma2.isssr.hermes.Bus2fase32;
-import it.uniroma2.isssr.hermes.BusInterationImplementation;
-import it.uniroma2.isssr.model.phase42.rest.DTO;
-import it.uniroma2.isssr.model.phase42.rest.DTOLevel3Request;
 import it.uniroma2.isssr.model.phase42.rest.response.DTOResponseStrategy;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,10 +14,9 @@ public class RestPresentationBus {
 	@Autowired
 	StrategyService strategyService;
 	@Autowired
-	Bus2fase32 bus2fase32;
-	@Autowired
-	BusInterationImplementation busInterationImplementation;
+	BusPhase4Interaction bus;
 
+/*	TODO REMOVE PHASE3
 	@RequestMapping(value = "/eventonstrategy", method = RequestMethod.POST)
 	public ResponseEntity<DTOLevel3Request> createStrategy(@RequestBody DTOLevel3Request dtoLevel3Request) {
 
@@ -44,15 +38,19 @@ public class RestPresentationBus {
 		return new ResponseEntity<DTOLevel3Request>(dtoLevel3Request, HttpStatus.BAD_REQUEST);
 
 	}
+*/
 
 	@RequestMapping(value = "/tryCreate", method = RequestMethod.GET)
 	public ResponseEntity<DTOResponseStrategy> createPhase56() {
 
 		DTOResponseStrategy result = new DTOResponseStrategy();
-		result.setMessage(bus2fase32.saveValitatedDataOnBus("sid-9C821864-D5BC-4680-89F5-1C8E6CF57C50"));
+		result.setMessage(bus.saveValitatedDataOnBus("sid-9C821864-D5BC-4680-89F5-1C8E6CF57C50"));
 		return new ResponseEntity<DTOResponseStrategy>(result, HttpStatus.OK);
 
 	}
+
+
+/*	TODO REMOVE PHASE3
 	@RequestMapping(value = "/alertPhase2", method = RequestMethod.GET)
 	public ResponseEntity<DTO> sendNotification(@RequestParam("id") String id) {
 		String result = busInterationImplementation.alertPhase2WrongStrategy(id);
@@ -60,7 +58,9 @@ public class RestPresentationBus {
 		dto.setMessage(result);
 		return new ResponseEntity<DTO>(dto, HttpStatus.OK);
 
-	}
+	}*/
+
+/*	TODO REMOVE PHASE3
 
 	@RequestMapping(value = "/tryStrategy", method = RequestMethod.GET)
 	public ResponseEntity tryStrategy() {
@@ -69,6 +69,6 @@ public class RestPresentationBus {
 		dto.setMessage("done");
 		return result;
 
-	}
+	}*/
 
 }

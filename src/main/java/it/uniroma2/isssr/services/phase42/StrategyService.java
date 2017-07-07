@@ -34,15 +34,15 @@ public interface StrategyService {
 	 * @return the response entity
 	 */
 
+/* TODO REMOVE PHASE3
 
-	public ResponseEntity<DTOResponseStrategy> createStrategy(String name,
-                                                              String description, String organizationalUnit, String organizationalUnitId);
+	ResponseEntity<DTOResponseStrategy> createStrategy(String name,
+													   String description, String organizationalUnit,
+													   String organizationalUnitId);
 
-	
-	/* Andrebbero inseriti dei metodi per la delete e l'update!
-	 * 
-	 * 
-	 * */
+  ResponseEntity updateStrategyF1();
+*/
+
 	
 	/**
 	 * Gets the strategies.
@@ -51,9 +51,6 @@ public interface StrategyService {
 	 */
 	ResponseEntity<DTOResponseStrategy> getStrategies();
 
-
-	ResponseEntity<DTOResponseStrategy> getStrategy();
-	ResponseEntity updateStrategyF1();
 	
 	/**
 	 * Gets the strategies whit a not utilized organizational unit.

@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class represents a Workflow object with name, model42 id (picture id),
+ * This class represents a Workflow object with name, model id (picture id),
  * process definition (Workflow deployed) and process instance (Workflow in running)
  *
  */

@@ -3,12 +3,9 @@ package it.uniroma2.isssr.controller.phase42;
 
 import it.uniroma2.isssr.services.phase42.ActivitiTaskService;
 import it.uniroma2.isssr.services.phase42.StrategyService;
-import it.uniroma2.isssr.hermes.Bus2fase32;
-import it.uniroma2.isssr.model.phase42.rest.DTOStrategy;
 import it.uniroma2.isssr.model.phase42.rest.response.DTOResponseStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,23 +43,20 @@ public class RestPresentation {
 
 	
 
-	
-	@Autowired
-	Bus2fase32 bus2fase32;
-	
-
 	/********************************
 	 * Questo metodo a noi non serve
 	 * 
 	 * @param dtoStrategy, che lego dal body della richiesta
 	 * @return il messaggio di risposta
 	 */
+/* 			TODO REMOVE PHASE3
 	@RequestMapping(value = "/createStrategy", method = RequestMethod.POST)
 	public ResponseEntity<DTOResponseStrategy> createStrategy(@RequestBody DTOStrategy dtoStrategy) {
 
 		return strategyService.createStrategy(dtoStrategy.getName(), dtoStrategy.getDescription(), dtoStrategy.getOrganizationalUnit(), dtoStrategy.getOrganizationalUnitId());
 
 	}
+*/
 
 	/**
 	 * Questo metodo deve essere richiesto al bus!
@@ -94,12 +88,12 @@ public class RestPresentation {
 
 	}
 	
-	
+/*	TODO REMOVE PHASE3
 	@RequestMapping(value = "/getStrategiesF2", method = RequestMethod.GET)
 	public ResponseEntity<DTOResponseStrategy> getStrategiesF2() {
 		strategyService.updateStrategyF1();
-		return bus2fase32.getStrategies();
+		return bus.getStrategies();
 
 	}
-	
+	*/
 }

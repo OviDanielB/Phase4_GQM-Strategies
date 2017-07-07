@@ -136,16 +136,5 @@ public class Gqm32Utils {
 		return GlobalConst.root + GlobalConst.ACTIVITI_EXPLORER_IP +":"+
 				GlobalConst.ACTIVITI_EXPLORER_PORT;
 	}
-	
-	public static String urlGqm3141(){
-		return GlobalConst.root + GlobalConst.GQM3141_IP +":"+ GlobalConst.GQM3141_PORT;
-	}
-	
-	public static Timestamp GetCurrentTimeStamp()
-	{
-		 java.util.Date date= new java.util.Date();
-		 
-		 return new Timestamp(date.getTime());
-	    
-	}
+
 }

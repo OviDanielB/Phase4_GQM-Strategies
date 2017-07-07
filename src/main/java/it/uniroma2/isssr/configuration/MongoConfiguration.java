@@ -1,8 +1,7 @@
 package it.uniroma2.isssr.configuration;
 
-import it.uniroma2.isssr.utils.phase42.Gqm32Properties;
+
 import com.mongodb.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -45,61 +44,27 @@ class MongoConfiguration extends AbstractMongoConfiguration {
 	protected String user = null;//null;
 	/* @Value("${spring.data.mongodb.password}") */
 	protected String password = null;//null;
-	@Value("${spring.data.mongodb.database}")
+	@Value("${host.mongodb.database}")
 	protected String database;//"training";
-	@Value("${spring.data.mongodb.port}")
+	@Value("${host.mongodb.port}")
 	protected Integer port;//27017;
-	@Value("${spring.data.mongodb.host}")
+	@Value("${host.mongodb.host}")
 	protected String host;//"127.0.0.1";
-	
-	@Autowired
-	Gqm32Properties props;
-	
-	/**
-	 * Descrizione del metodo
-	 * 
-	 * @param 
-	 * 
-	 * @return
-	 * 
-	 * @throws
-	 */
-	
+
+
 	@Override
 	protected String getDatabaseName() {
 		return database;
 	}
 
-	/**
-	 * Descrizione del metodo
-	 * 
-	 * @param 
-	 * 
-	 * @return
-	 * 
-	 * @throws
-	 */
-	
+
 	@SuppressWarnings("deprecation")
 	@Override
 	public Mongo mongo() throws Exception {
 		return new Mongo();
 	}
 
-	/**
-	 * 
-	 */
-	
-	/**
-	 * Descrizione del metodo
-	 * 
-	 * @param 
-	 * 
-	 * @return
-	 * 
-	 * @throws
-	 */
-	
+
 	@Bean
 	public MongoDbFactory mongoDbFactory() throws Exception {
 		
@@ -129,15 +94,7 @@ class MongoConfiguration extends AbstractMongoConfiguration {
 
 	}
 
-	/**
-	 * Descrizione del metodo
-	 * 
-	 * @param 
-	 * 
-	 * @return
-	 * 
-	 * @throws
-	 */
+
 	@Bean
 	public MongoTemplate mongoTemplate() throws Exception {
 		MongoTemplate mongoTemplate = new MongoTemplate(mongoDbFactory());

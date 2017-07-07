@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import it.uniroma2.isssr.HostSettings;
+import it.uniroma2.isssr.controller.IntegratedPhase34BusInteractionService;
 import it.uniroma2.isssr.exception.*;
 import it.uniroma2.isssr.controller.phase41.BusInterfaceController;
 import it.uniroma2.isssr.dto.ErrorResponse;
@@ -29,6 +30,7 @@ import it.uniroma2.isssr.model.phase41.*;
 import it.uniroma2.isssr.repositories.phase41.MetricRepository;
 import it.uniroma2.isssr.repositories.phase41.SystemStateRepository;
 import it.uniroma2.isssr.repositories.phase41.WorkflowDataRepository;
+import it.uniroma2.isssr.utils.BusObjectTypes;
 import it.uniroma2.isssr.utils.phase41.JsonRequestActiviti;
 import it.uniroma2.isssr.utils.phase41.XmlTools;
 import it.uniroma2.isssr.integrazione.BusException;
@@ -76,6 +78,45 @@ public class BusInterfaceControllerImplementation implements
 	@Autowired
 	private WorkflowDataRepository workflowDataRepository;
 
+	@Autowired
+	private IntegratedPhase34BusInteractionService integratedPhase34BusInteractionService;
+
+
+
+	/** TODO PHASE4 add metrics,measurement plan from BUS!!
+	 *
+	 * @param response
+	 *            The HttpServletResponse
+	 * @return
+
+	 */
+	@RequestMapping(value = "/bus/phase4Init", method = RequestMethod.POST)
+	@ApiOperation(value = "Phase 4 Initialization", notes = "This endpoint performs the phase initialization")
+	@ApiResponses(value = { @ApiResponse(code = 500, message = "See error code and message", response = ErrorResponse.class) })
+	public ResponseEntity<String> phaseInit(HttpServletResponse response)
+			throws IOException, JsonRequestException, JSONException,
+			BusRequestException, ParseException, BusException,
+			JsonRequestConflictException {
+
+		systemStateRepository.deleteAll();
+		refreshUsers();
+		refreshMetrics();
+
+		integratedPhase34BusInteractionService.updateLocalMeasureTasks();
+		integratedPhase34BusInteractionService.updateLocalWorkflowData();
+
+		return ResponseEntity.status(HttpStatus.OK).body("Done.");
+
+	}
+
+	/** TODO PHASE4 CHANGE NEW NOTIFICATION TYPES!!
+	 *
+	 * @param busNotification
+	 *            The nofication received from bus
+	 * @param response
+	 *            The HttpServletResponse
+	 * @return
+	 */
 	@RequestMapping(value = "/bus/notifications", method = RequestMethod.POST)
 	@ApiOperation(value = "Receive Notifications", notes = "This endpoint manages all notifications from bus. Supported notifications are: Creating of some new users, "
 			+ "Delete of any user, Insert of new metrics, Feedback messages from phases 5-6")
@@ -100,19 +141,38 @@ public class BusInterfaceControllerImplementation implements
 				String typeObj = busData.getTypeObj();
 				String operation = busData.getOperation();
 
+				/** if new metric available (or modified) */
 				if (typeObj.equals(Metric.class.getSimpleName())) {
+
 					refreshMetrics();
+
+				/** if user list changed */
 				} else if (typeObj.equals(hostSettings
 						.getUserCreateTypeObject())
 						|| typeObj.equals(hostSettings
 								.getUserDeleteTypeObject())) {
+
 					refreshUsers();
+
+					/** if new workflow data is present on bus */
+				} else if(typeObj.equals(BusObjectTypes.WORKFLOW_DATA)) {
+
+					integratedPhase34BusInteractionService.updateLocalWorkflowData();
+
+					/** new measure task is available on bus*/
+				}else if(typeObj.equals(BusObjectTypes.MEASURE_TASK)){
+
+					integratedPhase34BusInteractionService.updateLocalMeasureTasks();
+
+				/** base64 encoded issue message */
 				} else if (typeObj.equals("base64-"
 						+ IssueMessage.class.getSimpleName())
 						&& operation.equals(BusMessage.OPERATION_CREATE)) {
+
 					// Reading IssueMessage from BUS
 					String instance = busData.getInstance();
 					String phase = busData.getPhase();
+
 					JSONObject readBody = new JSONObject();
 					readBody.put("objIdLocalToPhase", "");
 					readBody.put("typeObj",
@@ -120,13 +180,16 @@ public class BusInterfaceControllerImplementation implements
 					readBody.put("instance", instance);
 					readBody.put("busVersion", "");
 					readBody.put("tags", "[]");
+
 					BusMessage readIssueMessage = new BusMessage(
 							BusMessage.OPERATION_READ, phase,
 							readBody.toString());
 					String readResponseString = readIssueMessage
 							.send(hostSettings.getBusUri());
+
 					ObjectMapper mapper = new ObjectMapper();
 					System.out.println(readResponseString);
+
 					List<BusReadResponse> readResponses = mapper.readValue(
 							readResponseString,
 							mapper.getTypeFactory().constructCollectionType(
@@ -135,11 +198,13 @@ public class BusInterfaceControllerImplementation implements
 					if (readResponse == null) {
 						throw new BusException("Response is null!");
 					} else if (!readResponse.getErr().equals("0")) {
+						/* error occured */
 						throw new BusException("Err: " + readResponse.getErr()
 								+ " msg: " + readResponse.getMsg());
 					}
 					String busIssueMessageString = mapper.treeToValue(
 							readResponse.getPayload(), String.class);
+
 					BusIssueMessage busIssueMessage = mapper.readValue(
 							busIssueMessageString, BusIssueMessage.class);
 					if (busIssueMessage == null) {
@@ -167,6 +232,7 @@ public class BusInterfaceControllerImplementation implements
 
 					}
 
+					/** TODO PHASE4 FEEDBACK */
 					FeedbackControllerImplementation.receiveFeedbackMessage(
 							issueMessage, hostSettings, workflowDataRepository);
 				}
@@ -420,21 +486,7 @@ public class BusInterfaceControllerImplementation implements
 
 	}
 
-	@RequestMapping(value = "/bus/phaseInit", method = RequestMethod.POST)
-	@ApiOperation(value = "Phase 3-4 Initialization", notes = "This endpoint performs the phase initialization")
-	@ApiResponses(value = { @ApiResponse(code = 500, message = "See error code and message", response = ErrorResponse.class) })
-	public ResponseEntity<String> phaseInit(HttpServletResponse response)
-			throws IOException, JsonRequestException, JSONException,
-			BusRequestException, ParseException, BusException,
-			JsonRequestConflictException {
 
-		systemStateRepository.deleteAll();
-		refreshUsers();
-		refreshMetrics();
-
-		return ResponseEntity.status(HttpStatus.OK).body("Done.");
-
-	}
 
 	/**
 	 * This method refresh the list of system users.
@@ -522,9 +574,7 @@ public class BusInterfaceControllerImplementation implements
 	 * 
 	 * @param jsonRequest
 	 *            A dedicated tool used to do a correct rest call.
-	 * @param sizelistUserActiviti
-	 *            Used to do a Rest call to Activiti with a specificated size
-	 *            for paging the response
+
 	 * @return The whole list of users that are in Activiti DB
 	 * @throws JsonRequestException
 	 */
@@ -548,9 +598,6 @@ public class BusInterfaceControllerImplementation implements
 	 * 
 	 * @param jsonRequest
 	 *            A dedicated tool used to do a correct rest call.
-	 * @param sizelistGroupActiviti
-	 *            Used to do a Rest call to Activiti with a specificated size
-	 *            for paging the response
 	 * @return
 	 * @throws JsonRequestException
 	 */

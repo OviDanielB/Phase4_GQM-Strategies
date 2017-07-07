@@ -71,14 +71,6 @@ public class StrategicPlanServiceImpl32 implements StrategicPlanService {
 	SWRRepository sWRRRepository;
 
 	/** The metaworkflow repository. */
-
-	/** The bus interation implementation. */
-//	@Autowired
-//	BusInterationImplementation busInterationImplementation;
-
-	/** The strategy repository. */
-	@Autowired
-	MetaWorkflowRepository mwRepository;
 	
 	@Autowired
 	WorkflowDataRepository wdRepository;
@@ -86,23 +78,9 @@ public class StrategicPlanServiceImpl32 implements StrategicPlanService {
 	/** The mongo template. */
 	@Autowired
     MongoTemplate mongoTemplate;
-	
-	@Autowired
-	GlobalConst globalConst;
-	
 
-	/**
-	 * Descrizione del metodo
-	 * 
-	 * @param
-	 * 
-	 * @return
-	 * 
-	 * @throws
-	 */
 
 	@SuppressWarnings("unused")
-
 	@Override
 	public ResponseEntity<DTOResponseStrategicPlan> createStrategicPlan(ArrayList<String> strategyId, String name,
                                                                         String description, float version, String release) {
@@ -182,13 +160,7 @@ public class StrategicPlanServiceImpl32 implements StrategicPlanService {
 	}
 
 	/**
-	 * Restituisce la lista dei strategic plan 
-	 * 
-	 * @param
-	 * 
-	 * @return
-	 * 
-	 * @throws
+	 * Restituisce la lista dei strategic plan
 	 */
 
 	@Override
@@ -204,13 +176,7 @@ public class StrategicPlanServiceImpl32 implements StrategicPlanService {
 	}
 	
 	/**
-	 * Restituisce la lista dei strategic plan 
-	 * 
-	 * @param
-	 * 
-	 * @return
-	 * 
-	 * @throws
+	 * Restituisce la lista dei strategic plan
 	 */
 	
 	@Override
@@ -222,12 +188,6 @@ public class StrategicPlanServiceImpl32 implements StrategicPlanService {
 
 	/**
 	 * Descrizione del metodo
-	 * 
-	 * @param
-	 * 
-	 * @return
-	 * 
-	 * @throws
 	 */
 
 	@Override
@@ -252,12 +212,6 @@ public class StrategicPlanServiceImpl32 implements StrategicPlanService {
 
 	/**
 	 * Descrizione del metodo
-	 * 
-	 * @param
-	 * 
-	 * @return
-	 * 
-	 * @throws
 	 */
 
 	@Override
@@ -279,12 +233,6 @@ public class StrategicPlanServiceImpl32 implements StrategicPlanService {
 
 	/**
 	 * Descrizione del metodo
-	 * 
-	 * @param
-	 * 
-	 * @return
-	 * 
-	 * @throws
 	 */
 
 	@Override
@@ -316,12 +264,6 @@ public class StrategicPlanServiceImpl32 implements StrategicPlanService {
 
 	/**
 	 * Descrizione del metodo
-	 * 
-	 * @param
-	 * 
-	 * @return
-	 * 
-	 * @throws
 	 */
 
 	@Override
@@ -344,12 +286,6 @@ public class StrategicPlanServiceImpl32 implements StrategicPlanService {
 
 	/**
 	 * Descrizione del metodo
-	 * 
-	 * @param
-	 * 
-	 * @return
-	 * 
-	 * @throws
 	 */
 
 	@Override
@@ -377,12 +313,6 @@ public class StrategicPlanServiceImpl32 implements StrategicPlanService {
 
 	/**
 	 * Descrizione del metodo
-	 * 
-	 * @param
-	 * 
-	 * @return
-	 * 
-	 * @throws
 	 */
 
 	@Override
@@ -407,16 +337,6 @@ public class StrategicPlanServiceImpl32 implements StrategicPlanService {
 		return responseEntity;
 	}
 
-	/**
-	 * Descrizione del metodo
-	 * 
-	 * @param
-	 * 
-	 * @return
-	 * 
-	 * @throws
-	 */
-
 	@Override
 	public ResponseEntity<DTOResponseMetaWorkflow> getStrategyWorkflowRelationOfStrategicPlan(String id) {
 		StrategicPlan strategicPlan = strategicPlanRepository.findOne(id);
@@ -429,31 +349,13 @@ public class StrategicPlanServiceImpl32 implements StrategicPlanService {
 		return responseEntity;
 	}
 
-	/**
-	 * Descrizione del metodo
-	 * 
-	 * @param
-	 * 
-	 * @return
-	 * 
-	 * @throws
-	 */
-
 	@Override
 	public ResponseEntity<DTOResponseMetaWorkflow> getWorkflowBusinessIdOfStrategicPlan(String id) {
 
 		return null;
 	}
 
-	/**
-	 * Descrizione del metodo
-	 * 
-	 * @param
-	 * 
-	 * @return
-	 * 
-	 * @throws
-	 */
+
 	@Override
 	public ResponseEntity<DTOResponseSWRelation> setMetaWorkflow(String strategicPlanId, String strategyId,
                                                                  String name) {
@@ -504,30 +406,13 @@ public class StrategicPlanServiceImpl32 implements StrategicPlanService {
 
 	}
 
-	/**
-	 * Descrizione del metodo
-	 * 
-	 * @param
-	 * 
-	 * @return
-	 * 
-	 * @throws
-	 */
+
 	@Override
 	public ResponseEntity<DTOResponseStrategicPlan> getStrategyToWorkflow(String id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	/**
-	 * Descrizione del metodo
-	 * 
-	 * @param
-	 * 
-	 * @return
-	 * 
-	 * @throws
-	 */
 	@Override
 	public ResponseEntity<DTOResponseStrategicPlan> updateStrategicPlan(ArrayList<String> strategyId, String name,
                                                                         String description, ArrayList<Attribute> attributes, float version, String release) {
@@ -601,13 +486,7 @@ public class StrategicPlanServiceImpl32 implements StrategicPlanService {
 	
 
 	/**
-	 * Restituisce tutte le strategie con Unità Organizzativa dello Strategic Plan  
-	 * 
-	 * @param
-	 * 
-	 * @return
-	 * 
-	 * @throws
+	 * Restituisce tutte le strategie con Unità Organizzativa dello Strategic Plan
 	 */
 
 	@Override
@@ -659,18 +538,6 @@ public class StrategicPlanServiceImpl32 implements StrategicPlanService {
 		return responseEntity;
 	}
 	
-	
-	
-
-	/**
-	 * Descrizione del metodo
-	 * 
-	 * @param
-	 * 
-	 * @return
-	 * 
-	 * @throws
-	 */
 
 	@Override
 	public ResponseEntity<DTOResponseStrategicPlan> updateStrategiesOfStrategicPlan(String id,
