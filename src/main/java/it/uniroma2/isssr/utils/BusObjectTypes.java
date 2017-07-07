@@ -8,4 +8,5 @@ public class BusObjectTypes {
     public static final String WORKFLOW_DATA = "WorkflowData";
     public static final String MEASURE_TASK = "MeasureTask";
     public static final String STRATEGIC_PLAN = "StrategicPlan";
+    public static final String STRATEGY = "Strategy";
 }

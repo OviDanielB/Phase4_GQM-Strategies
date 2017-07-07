@@ -1,5 +1,7 @@
 package it.uniroma2.isssr.model.phase42;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -41,14 +43,14 @@ public class Strategy {
 	private String organizationalunit;
 	
 	private String organizationalunitId;
-	
-	int status;
+
+	Integer status;
 	
 	/** The version. */
-	private int version;
+	private Integer version;
 	
 	/** The release. */
-	private int release;
+	private Integer release;
 	
 	/**
 	 * Instantiates a new strategy.
@@ -172,7 +174,7 @@ public class Strategy {
 	
 	
 
-	public int getStatus() {
+	public Integer getStatus() {
 		return status;
 	}
 
@@ -185,7 +187,7 @@ public class Strategy {
 	 *
 	 * @return the version
 	 */
-	public int getVersion() {
+	public Integer getVersion() {
 		return version;
 	}
 
@@ -203,7 +205,7 @@ public class Strategy {
 	 *
 	 * @return the release
 	 */
-	public int getRelease() {
+	public Integer getRelease() {
 		return release;
 	}
 

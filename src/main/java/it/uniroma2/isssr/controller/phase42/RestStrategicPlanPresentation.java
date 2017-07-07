@@ -40,18 +40,6 @@ public class RestStrategicPlanPresentation {
 	 */
 	@RequestMapping(value = "/getStrategicPlans", method = RequestMethod.GET)
 	public ResponseEntity<DTOResponseStrategicPlan> getStrategicPlans(/*@RequestParam(value = "role", required=false) String role*/) {
-		
-//			switch (role) {
-//			case "Workflow Developer":
-//				break;
-//			case "Validator":
-//				break;
-//			case "Execution Manager":
-//				break;
-//
-//			default:
-//				return strategicPlanService.getStrategicPlans();
-//			}
 			return strategicPlanService.getStrategicPlans();
 
 	}
@@ -76,7 +64,9 @@ public class RestStrategicPlanPresentation {
 		
 	}
 	*/
-	
+
+
+	// TODO REMOVE PHASE3
 	/**
 	 * Update strategic plan.
 	 *
@@ -89,7 +79,8 @@ public class RestStrategicPlanPresentation {
 		return strategicPlanService.updateStrategicPlan(dtoStrategicPlan.getId(), dtoStrategicPlan.getName(), dtoStrategicPlan.getDescription() , dtoStrategicPlan.getAttributes(), dtoStrategicPlan.getVersion(),dtoStrategicPlan.getRelease());
 
 	}
-	
+
+	// TODO REMOVE PHASE3
 	@RequestMapping(value = "/deleteStrategicPlan", method = RequestMethod.GET)
 	public ResponseEntity<DTOResponseStrategicPlan> deleteStrategicPlan(@RequestParam("id") String id) {
 
@@ -110,7 +101,9 @@ public class RestStrategicPlanPresentation {
 
 	}
 
-	
+
+
+	// TODO REMOVE PHASE3
 	/**
 	 * Gets the strategic plan.
 	 *

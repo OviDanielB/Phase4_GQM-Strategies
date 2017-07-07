@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.*;
  */
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8080")
+//@CrossOrigin(origins = "http://localhost:8080")
 @RequestMapping("/strategy/")
 public class RestPresentation {
 	
@@ -52,12 +52,12 @@ public class RestPresentation {
 
 /* 			TODO REMOVE PHASE3*/
 
-//	@RequestMapping(value = "/createStrategy", method = RequestMethod.POST)
-//	public ResponseEntity<DTOResponseStrategy> createStrategy(@RequestBody DTOStrategy dtoStrategy) {
-//
-//		return strategyService.createStrategy(dtoStrategy.getName(), dtoStrategy.getDescription(), dtoStrategy.getOrganizationalUnit(), dtoStrategy.getOrganizationalUnitId());
-//
-//	}
+	@RequestMapping(value = "/createStrategy", method = RequestMethod.POST)
+	public ResponseEntity<DTOResponseStrategy> createStrategy(@RequestBody DTOStrategy dtoStrategy) {
+
+		return strategyService.createStrategy(dtoStrategy.getName(), dtoStrategy.getDescription(), dtoStrategy.getOrganizationalUnit(), dtoStrategy.getOrganizationalUnitId());
+
+	}
 
 
 	/**
@@ -66,7 +66,7 @@ public class RestPresentation {
 	 *
 	 * @return the strategies
 	 */
-	@CrossOrigin(origins = "http://localhost:8080")
+	//@CrossOrigin(origins = "http://localhost:8080")
 	@RequestMapping(value = "/getStrategies", method = RequestMethod.GET)
 	public ResponseEntity<DTOResponseStrategy> getStrategies() {
 

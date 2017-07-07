@@ -59,13 +59,6 @@ public class BusPhase4InteractionImplementation implements BusPhase4Interaction 
     }
 
 
-    // TODO PHASE 4 maybe not used
-    private List<Strategy> getStrategiesFromBus(){
-        List<Strategy> strategyList = new ArrayList<>();
-
-
-        return strategyList;
-    }
 
 
 

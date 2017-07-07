@@ -104,6 +104,8 @@ public class BusInterfaceControllerImplementation implements
 
 		integratedPhase34BusInteractionService.updateLocalMeasureTasks();
 		integratedPhase34BusInteractionService.updateLocalWorkflowData();
+		integratedPhase34BusInteractionService.updateLocalStrategies();
+		integratedPhase34BusInteractionService.updateLocalStrategicPlans();
 
 		return ResponseEntity.status(HttpStatus.OK).body("Done.");
 
@@ -166,7 +168,11 @@ public class BusInterfaceControllerImplementation implements
 
 					/** new strategic plan is available on bus*/
 				} else if(typeObj.equals(BusObjectTypes.STRATEGIC_PLAN)) {
-					integratedPhase34BusInteractionService.updateLocalStrategicPlans();
+                    integratedPhase34BusInteractionService.updateLocalStrategicPlans();
+
+                    /** new strategy is available on bus (from phase 2) */
+                }else if(typeObj.equals(BusObjectTypes.STRATEGY)) {
+				    integratedPhase34BusInteractionService.updateLocalStrategies();
 
 				/** base64 encoded issue message */
 				} else if (typeObj.equals("base64-"

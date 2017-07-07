@@ -34,14 +34,15 @@ public interface StrategyService {
 	 * @return the response entity
 	 */
 
-/* TODO REMOVE PHASE3
+
+
+	//TODO REMOVE PHASE3
 
 	ResponseEntity<DTOResponseStrategy> createStrategy(String name,
 													   String description, String organizationalUnit,
 													   String organizationalUnitId);
-
-  ResponseEntity updateStrategyF1();
-*/
+	//TODO REMOVE PHASE3
+	//ResponseEntity updateStrategyF1();
 
 	
 	/**

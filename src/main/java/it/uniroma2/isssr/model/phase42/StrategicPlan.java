@@ -61,10 +61,7 @@ public class StrategicPlan {
 
 	/** The release. */
 	private String release;
-	
-	/** The strategy repository. */
-	@Autowired
-	private StrategyRepository strategyRepository;
+
 
 	/**
 	 * Instantiates a new strategic plan.
