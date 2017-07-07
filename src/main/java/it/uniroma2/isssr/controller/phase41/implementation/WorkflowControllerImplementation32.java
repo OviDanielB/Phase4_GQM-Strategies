@@ -129,6 +129,7 @@ public class WorkflowControllerImplementation32 implements WorkflowController {
 		return new ResponseEntity<String>(response.toString(), HttpStatus.OK);
 	}
 
+	// TODO REMOVE PHASE3
 	@RequestMapping(value = "/workflows/deployments", method = RequestMethod.POST)
 	@ApiOperation(value = "Deploy Workflow Model", notes = "This endpoint deploy a business workflow")
 	@ApiResponses(value = {
@@ -187,7 +188,8 @@ public class WorkflowControllerImplementation32 implements WorkflowController {
 	
 	
 	
-	
+
+	// TODO REMOVE PHASE3
 	@RequestMapping(value = "/workflows/processinstances", method = RequestMethod.POST)
 	@ApiOperation(value = "Start Workflow Process Instance", notes = "This endpoint starts a business workflow and updates the meta-workflow")
 	@ApiResponses(value = {
