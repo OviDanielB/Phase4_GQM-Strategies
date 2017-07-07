@@ -104,7 +104,7 @@ public class MeasurementPlanControllerImplementation implements MeasurementPlanC
 
         return new ResponseEntity<ResponseMeasurementPlan>(measurementPlanResponse, HttpStatus.OK);
     }
-
+/*  TODO REMOVE PHASE3
     @RequestMapping(value = "/measurement-plan", method = RequestMethod.POST)
     @ApiOperation(value = "Save a measurement plan", notes = "This endpoint saves a measurement plan.")
     @ApiResponses(value = {@ApiResponse(code = 500, message = "See error code and message", response = ErrorResponse.class)})
@@ -123,7 +123,8 @@ public class MeasurementPlanControllerImplementation implements MeasurementPlanC
 
         return ResponseEntity.status(HttpStatus.OK).body("The measurement plan has been successfully saved");
 
-    }
+    }*/
+
 
     @RequestMapping(value = "/measurement-plan/image", method = RequestMethod.GET, produces = MediaType.IMAGE_PNG_VALUE)
     @ApiOperation(value = "Get a workflow image", notes = "This endpoint returns an image of a workflow that requires a measurement plan.")

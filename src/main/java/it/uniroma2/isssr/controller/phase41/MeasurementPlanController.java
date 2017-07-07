@@ -19,15 +19,15 @@ public interface MeasurementPlanController {
     public ResponseEntity<?> getMeasurementPlan(@RequestParam(value = "modelId") String modelId)
             throws JsonRequestException;
 
-    /**
+    /** TODO REMOVE PHASE3
      * Save/Update workflowDate with measurement plan executed
      *
      * @param workflowData
      * @return 200OK if measurement plan is saved successfully
      * @throws JsonRequestException
      */
-    @RequestMapping(value = "/measurement-plan", method = RequestMethod.POST)
-    public ResponseEntity<?> saveMeasurementPlan(@RequestBody WorkflowData workflowData) throws JsonRequestException;
+/*    @RequestMapping(value = "/measurement-plan", method = RequestMethod.POST)
+    public ResponseEntity<?> saveMeasurementPlan(@RequestBody WorkflowData workflowData) throws JsonRequestException;*/
 
     /**
      * @param modelId model Workflow id
