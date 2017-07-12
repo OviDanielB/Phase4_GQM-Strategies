@@ -166,7 +166,7 @@ public class BusInterfaceControllerImplementation implements
 
 					integratedPhase34BusInteractionService.updateLocalMeasureTasks();
 
-					/** new strategic plan is available on bus*/
+					/** new strategic plan is available on bus (from phase 3) */
 				} else if(typeObj.equals(BusObjectTypes.STRATEGIC_PLAN)) {
                     integratedPhase34BusInteractionService.updateLocalStrategicPlans();
 

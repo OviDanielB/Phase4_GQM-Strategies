@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.*;
  */
 
 @RestController
-//@CrossOrigin(origins = "http://localhost:8080")
+@CrossOrigin(origins = "http://localhost:8082")
 @RequestMapping("/strategy/")
 public class RestPresentation {
 	
@@ -66,7 +66,6 @@ public class RestPresentation {
 	 *
 	 * @return the strategies
 	 */
-	//@CrossOrigin(origins = "http://localhost:8080")
 	@RequestMapping(value = "/getStrategies", method = RequestMethod.GET)
 	public ResponseEntity<DTOResponseStrategy> getStrategies() {
 

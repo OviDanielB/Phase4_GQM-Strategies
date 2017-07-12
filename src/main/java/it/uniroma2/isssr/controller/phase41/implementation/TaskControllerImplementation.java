@@ -38,6 +38,7 @@ import java.util.*;
 
 @RestController
 @Api(value = "Task", description = "Task API")
+@CrossOrigin(origins = "http://localhost:8082")
 public class TaskControllerImplementation implements TaskController {
 
 	@SuppressWarnings("unused")
