@@ -19,6 +19,7 @@
 	</parent>
 
 	<properties>
+		<start-class>it.uniroma2.isssr.GqmPhase4Application</start-class>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
@@ -32,7 +33,7 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
-			<!--<scope>provided</scope>-->
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -78,10 +79,12 @@
 		</dependency>
 
 		<dependency>
-			<groupId>it.uniroma2.isssr</groupId>
-			<artifactId>integrazione</artifactId>
+			<groupId>it.uniroma2.isssr.integrazione</groupId>
+			<artifactId>BusDriver</artifactId>
 			<version>0.9.5</version>
 		</dependency>
+
+
 		<dependency>
 			<groupId>com.googlecode.json-simple</groupId>
 			<artifactId>json-simple</artifactId>
@@ -102,7 +105,32 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<finalName>gqm_phase4</finalName>
+					<finalName>phase4</finalName>
+					<mainClass>it.uniroma2.isssr.GqmPhase4Application</mainClass>
+					<layout>WAR</layout>
+					<addResources>true</addResources>
+					<executable>true</executable>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Create a jar with a manifest -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>it.uniroma2.isssr.GqmPhase4Application</mainClass>
+						</manifest>
+					</archive>
 				</configuration>
 			</plugin>
 		</plugins>
