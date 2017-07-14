@@ -59,6 +59,7 @@ import java.net.URLDecoder;
 import java.util.*;
 
 @RestController
+@CrossOrigin(origins = "*")
 @Api(value = "busInterface", description = "Bus Interface API")
 public class BusInterfaceControllerImplementation implements
 		BusInterfaceController {
@@ -123,13 +124,9 @@ public class BusInterfaceControllerImplementation implements
 	@ApiOperation(value = "Receive Notifications", notes = "This endpoint manages all notifications from bus. Supported notifications are: Creating of some new users, "
 			+ "Delete of any user, Insert of new metrics, Feedback messages from phases 5-6")
 	@ApiResponses(value = { @ApiResponse(code = 500, message = "See error code and message", response = ErrorResponse.class) })
-	public ResponseEntity<BusNotification> receiveNotification(
-			@RequestBody BusNotification busNotification,
-			HttpServletResponse response) throws JsonParseException,
-            JsonMappingException, JSONException, IOException,
-			BusRequestException, BusException, ParseException,
-			JsonRequestException, IllegalReceiveMessageRequestBodyException,
-			IssueMessageCatcherNotFoundException, WorkflowDataException,
+	public ResponseEntity<BusNotification> receiveNotification(@RequestBody BusNotification busNotification, HttpServletResponse response)
+			throws JsonParseException, JsonMappingException, JSONException, IOException, BusRequestException, BusException, ParseException,
+			JsonRequestException, IllegalReceiveMessageRequestBodyException, IssueMessageCatcherNotFoundException, WorkflowDataException,
 			JsonRequestConflictException {
 
 		String data = busNotification.getData();
@@ -140,28 +137,25 @@ public class BusInterfaceControllerImplementation implements
 			BusData busData = objectMapper.readValue(data, BusData.class);
 
 			if (busData.getTypeObj() != null) {
+
 				String typeObj = busData.getTypeObj();
 				String operation = busData.getOperation();
 
 				/** if new metric available (or modified) */
-				if (typeObj.equals(Metric.class.getSimpleName())) {
-
+				if (typeObj.equals(BusObjectTypes.METRIC)) {
 					refreshMetrics();
 
 				/** if user list changed */
-				} else if (typeObj.equals(hostSettings
-						.getUserCreateTypeObject())
-						|| typeObj.equals(hostSettings
-								.getUserDeleteTypeObject())) {
+				} else if (typeObj.equals(hostSettings.getUserCreateTypeObject()) || typeObj.equals(hostSettings.getUserDeleteTypeObject())) {
 
 					refreshUsers();
 
-					/** if new workflow data is present on bus */
+					/** if new workflow data is present on bus (from phase 3) */
 				} else if(typeObj.equals(BusObjectTypes.WORKFLOW_DATA)) {
 
 					integratedPhase34BusInteractionService.updateLocalWorkflowData();
 
-					/** new measure task is available on bus*/
+					/** new measure task is available on bus (from phase 3) */
 				}else if(typeObj.equals(BusObjectTypes.MEASURE_TASK)) {
 
 					integratedPhase34BusInteractionService.updateLocalMeasureTasks();
@@ -175,9 +169,7 @@ public class BusInterfaceControllerImplementation implements
 				    integratedPhase34BusInteractionService.updateLocalStrategies();
 
 				/** base64 encoded issue message */
-				} else if (typeObj.equals("base64-"
-						+ IssueMessage.class.getSimpleName())
-						&& operation.equals(BusMessage.OPERATION_CREATE)) {
+				} else if (typeObj.equals("base64-" + IssueMessage.class.getSimpleName()) && operation.equals(BusMessage.OPERATION_CREATE)) {
 
 					// Reading IssueMessage from BUS
 					String instance = busData.getInstance();
@@ -200,10 +192,8 @@ public class BusInterfaceControllerImplementation implements
 					ObjectMapper mapper = new ObjectMapper();
 					System.out.println(readResponseString);
 
-					List<BusReadResponse> readResponses = mapper.readValue(
-							readResponseString,
-							mapper.getTypeFactory().constructCollectionType(
-									List.class, BusReadResponse.class));
+					List<BusReadResponse> readResponses = mapper.readValue(readResponseString,
+							mapper.getTypeFactory().constructCollectionType(List.class, BusReadResponse.class));
 					BusReadResponse readResponse = readResponses.get(0);
 					if (readResponse == null) {
 						throw new BusException("Response is null!");
@@ -221,24 +211,12 @@ public class BusInterfaceControllerImplementation implements
 						throw new BusException("issueMessage is null!");
 					}
 					IssueMessage issueMessage = new IssueMessage();
-					issueMessage
-							.setBusinessWorkflowProcessInstanceId(busIssueMessage
-									.getBusinessWorkflowInstanceId());
-					issueMessage.setIssueMessage(busIssueMessage
-							.getIssueMessage());
-					if (busIssueMessage.getIssueMessageResources() != null
-							&& !busIssueMessage.getIssueMessageResources()
-									.isEmpty()) {
-						List<IssueMessageResource> issueMessageResources = mapper
-								.readValue(
-										busIssueMessage
-												.getIssueMessageResources(),
-										mapper.getTypeFactory()
-												.constructCollectionType(
-														List.class,
-														IssueMessageResource.class));
-						issueMessage
-								.setIssueMessageResources(issueMessageResources);
+					issueMessage.setBusinessWorkflowProcessInstanceId(busIssueMessage.getBusinessWorkflowInstanceId());
+					issueMessage.setIssueMessage(busIssueMessage.getIssueMessage());
+					if (busIssueMessage.getIssueMessageResources() != null && !busIssueMessage.getIssueMessageResources().isEmpty()) {
+						List<IssueMessageResource> issueMessageResources = mapper.readValue(busIssueMessage.getIssueMessageResources(),
+										mapper.getTypeFactory().constructCollectionType(List.class, IssueMessageResource.class));
+						issueMessage.setIssueMessageResources(issueMessageResources);
 
 					}
 

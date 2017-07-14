@@ -231,8 +231,7 @@ public class ValidationOpServiceImpl implements ValidationOpService {
 		}
 		List<MeasureTask> refMeasureTaskList;
 		if(dtoValidationOp.getRefMeasureTaskId()!=null){
-				refMeasureTaskList = 
-				measureTaskRepository.findByTaskId(dtoValidationOp.getRefMeasureTaskId());
+				refMeasureTaskList = measureTaskRepository.findByTaskId(dtoValidationOp.getRefMeasureTaskId());
 		
 			if( refMeasureTaskList.size()>1){
 				//ritorna c'è un problema, 

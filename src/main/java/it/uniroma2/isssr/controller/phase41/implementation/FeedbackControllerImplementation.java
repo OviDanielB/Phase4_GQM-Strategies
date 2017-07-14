@@ -19,15 +19,13 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*")
 @Api(value = "Feedback Controller", description = "Feedback Controller API")
 public class FeedbackControllerImplementation implements FeedbackController {
 
@@ -47,13 +45,14 @@ public class FeedbackControllerImplementation implements FeedbackController {
 		String businessWorkflowProcessInstanceId = workflowMessage
 				.getBusinessWorkflowProcessInstanceId();
 
-		List<WorkflowData> workflowDatas = workflowDataRepository
+		List<WorkflowData> workflowDataList = workflowDataRepository
 				.findByBusinessWorkflowProcessInstanceId(businessWorkflowProcessInstanceId);
 
-		if (workflowDatas.size() <= 0) {
+        //TODO WorkflowDataList is always empty...
+		if (workflowDataList.size() <= 0) {
 			throw new WorkflowDataException();
 		}
-		WorkflowData workflowData = workflowDatas.get(0);
+		WorkflowData workflowData = workflowDataList.get(0);
 
 		String metaWorkflowProcessInstanceId = workflowData
 				.getMetaWorkflowProcessInstanceId();

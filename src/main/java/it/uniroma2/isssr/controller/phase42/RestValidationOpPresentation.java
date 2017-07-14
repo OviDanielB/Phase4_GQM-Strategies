@@ -11,6 +11,7 @@ import it.uniroma2.isssr.model.phase42.rest.response.DTOResponseMeasureTask;
 import it.uniroma2.isssr.validation.Phase;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -57,6 +58,7 @@ import java.io.IOException;
  *
  */
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/validation/")
 public class RestValidationOpPresentation {
 

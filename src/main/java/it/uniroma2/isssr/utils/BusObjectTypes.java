@@ -9,4 +9,5 @@ public class BusObjectTypes {
     public static final String MEASURE_TASK = "MeasureTask";
     public static final String STRATEGIC_PLAN = "StrategicPlan";
     public static final String STRATEGY = "Strategy";
+    public static final String METRIC = "Metric";
 }
