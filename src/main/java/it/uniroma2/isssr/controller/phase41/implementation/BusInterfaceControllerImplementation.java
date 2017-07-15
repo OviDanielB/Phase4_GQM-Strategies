@@ -27,6 +27,7 @@ import it.uniroma2.isssr.dto.post.PostAssignUserToGroup;
 import it.uniroma2.isssr.dto.post.PostWorkflowToBeSaved;
 import it.uniroma2.isssr.dto.response.ResponseGetIssueMessages;
 import it.uniroma2.isssr.model.phase41.*;
+import it.uniroma2.isssr.repositories.phase41.MeasureTaskRepository;
 import it.uniroma2.isssr.repositories.phase41.MetricRepository;
 import it.uniroma2.isssr.repositories.phase41.SystemStateRepository;
 import it.uniroma2.isssr.repositories.phase41.WorkflowDataRepository;
@@ -77,6 +78,9 @@ public class BusInterfaceControllerImplementation implements
 	private SystemStateRepository systemStateRepository;
 
 	@Autowired
+	private MeasureTaskRepository measureTaskRepository;
+
+	@Autowired
 	private WorkflowDataRepository workflowDataRepository;
 
 	@Autowired
@@ -103,8 +107,9 @@ public class BusInterfaceControllerImplementation implements
 		refreshUsers();
 		refreshMetrics();
 
+		// TODO why not delete all?
 		integratedPhase34BusInteractionService.updateLocalMeasureTasks();
-		integratedPhase34BusInteractionService.updateLocalWorkflowData();
+		integratedPhase34BusInteractionService.updateLocalWorkflowData(getWorkflowData());
 		integratedPhase34BusInteractionService.updateLocalStrategies();
 		integratedPhase34BusInteractionService.updateLocalStrategicPlans();
 
@@ -150,10 +155,15 @@ public class BusInterfaceControllerImplementation implements
 
 					refreshUsers();
 
+					/** if new workflow XML is present on bus (from phase 3) */
+				} else if(typeObj.equals(BusObjectTypes.WORKFLOW_XML)) {
+
+					integratedPhase34BusInteractionService.updateLocalWorkflowXML(getWorkflows());
+
 					/** if new workflow data is present on bus (from phase 3) */
 				} else if(typeObj.equals(BusObjectTypes.WORKFLOW_DATA)) {
 
-					integratedPhase34BusInteractionService.updateLocalWorkflowData();
+					integratedPhase34BusInteractionService.updateLocalWorkflowData(getWorkflowData());
 
 					/** new measure task is available on bus (from phase 3) */
 				}else if(typeObj.equals(BusObjectTypes.MEASURE_TASK)) {
@@ -381,7 +391,7 @@ public class BusInterfaceControllerImplementation implements
 				// String pl = payload.toString();
 				JSONObject jo = new JSONObject();
 				jo.put("objIdLocalToPhase", workflowToBeSaved.getModelId());
-				jo.put("typeObj", "WorkflowXml");
+				jo.put("typeObj", BusObjectTypes.WORKFLOW_XML);
 				jo.put("instance", workflowToBeSaved.getName());
 				jo.put("tags", "[]");
 				jo.put("payload", pl);
@@ -438,7 +448,7 @@ public class BusInterfaceControllerImplementation implements
 			// String pl = payload.toString();
 			JSONObject jo = new JSONObject();
 			jo.put("objIdLocalToPhase", "");
-			jo.put("typeObj", "WorkflowXml");
+			jo.put("typeObj", BusObjectTypes.WORKFLOW_XML);
 			jo.put("instance", "");
 			jo.put("busVersion", "");
 			jo.put("tags", "[]");
@@ -467,6 +477,62 @@ public class BusInterfaceControllerImplementation implements
 			}
 
 			return new ResponseEntity<ArrayList<XmlWorkflow>>(xmlList,
+					HttpStatus.OK);
+		}
+
+		throw new BusException("ERROR: BUS Not present!");
+
+	}
+
+	/**
+	 * Read new Workflow data from Bus and save on local MongoDB
+	 * @return
+	 * @throws BusException
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/bus/workflowData", method = RequestMethod.GET)
+	@ApiOperation(value = "Get Workflow data", notes = "This endpoint retrieves the workflows previously exported")
+	@ApiResponses(value = {@ApiResponse(code = 500, message = "See error code and message", response = ErrorResponse.class)})
+	public ResponseEntity<ArrayList<WorkflowData>> getWorkflowData()
+			throws BusException, IOException {
+		if (hostSettings.isBus()) {
+			JSONObject jo = new JSONObject();
+			jo.put("objIdLocalToPhase", "");
+			jo.put("typeObj", BusObjectTypes.WORKFLOW_DATA);
+			jo.put("instance", "");
+			jo.put("busVersion", "");
+			jo.put("tags", "[]");
+
+			BusMessage busMessage = new BusMessage(BusMessage.OPERATION_READ,
+					"phase3", jo.toString());
+
+			String busResponse;
+			busResponse = busMessage.send(hostSettings.getBusUri());
+			System.out.println(busResponse);
+
+			ObjectMapper mapper = new ObjectMapper();
+			List<BusReadResponse> readResponseList = mapper.readValue(
+					busResponse,
+					mapper.getTypeFactory().constructCollectionType(List.class,
+							BusReadResponse.class));
+
+			// empty old workflowdatas and old related measure tasks
+			workflowDataRepository.deleteAll();
+			measureTaskRepository.deleteAll();
+
+
+			ArrayList<WorkflowData> wfList = new ArrayList<>();
+			for (BusReadResponse response : readResponseList) {
+				WorkflowData workflow = mapper.treeToValue(
+						response.getPayload(), WorkflowData.class);
+				workflowDataRepository.save(workflow);
+				for ( MeasureTask m :workflow.getMeasureTasksList() ) {
+					measureTaskRepository.save(m);
+				}
+				wfList.add(workflow);
+			}
+
+			return new ResponseEntity<ArrayList<WorkflowData>>(wfList,
 					HttpStatus.OK);
 		}
 

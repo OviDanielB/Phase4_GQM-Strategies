@@ -11,15 +11,18 @@ import it.uniroma2.isssr.integrazione.BusException;
 import it.uniroma2.isssr.integrazione.BusMessage;
 import it.uniroma2.isssr.model.phase41.MeasureTask;
 import it.uniroma2.isssr.model.phase41.WorkflowData;
+import it.uniroma2.isssr.model.phase41.XmlWorkflow;
 import it.uniroma2.isssr.model.phase42.StrategicPlan;
 import it.uniroma2.isssr.model.phase42.Strategy;
 import it.uniroma2.isssr.repositories.phase41.MeasureTaskRepository;
 import it.uniroma2.isssr.repositories.phase41.SystemStateRepository;
 import it.uniroma2.isssr.repositories.phase41.WorkflowDataRepository;
+import it.uniroma2.isssr.repositories.phase41.XmlWorkflowRepository;
 import it.uniroma2.isssr.repositories.phase42.StrategicPlanRepository;
 import it.uniroma2.isssr.repositories.phase42.StrategyRepository;
 import it.uniroma2.isssr.utils.BusObjectTypes;
 import org.json.JSONObject;
+import org.json.XML;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.json.GsonJsonParser;
 import org.springframework.boot.json.JacksonJsonParser;
@@ -56,6 +59,8 @@ public class IntegratedPhase34BusInteractionService {
     @Autowired
     private StrategyRepository strategyRepository;
 
+    @Autowired
+    private XmlWorkflowRepository xmlWorkflowRepository;
 
     /** TODO PHASE4 integrate with phase2
      * Get Strategies from Bus (saved by Phase2) and saves
@@ -173,52 +178,18 @@ public class IntegratedPhase34BusInteractionService {
      *  all previous data
      * @return
      */
-    public Boolean updateLocalWorkflowData(){
+    public Boolean updateLocalWorkflowData(ResponseEntity<ArrayList<WorkflowData>> workflowDatas){
 
-        JSONObject jo = new JSONObject();
-        jo.put("objIdLocalToPhase", "");
-        jo.put("typeObj", BusObjectTypes.WORKFLOW_DATA);
-        jo.put("instance", "");
-        jo.put("busVersion", "");
-        jo.put("tags", "[]");
+        // empty old workflowdatas and old related measure tasks
+        workflowDataRepository.deleteAll();
+        measureTaskRepository.deleteAll();
 
-        try {
-
-            // TODO remove fake
-            //fakeWorkFlowData();
-
-            BusMessage message = new BusMessage(BusMessage.OPERATION_READ,"phase3", jo.toString());
-            String busResponse = message.send(hostSettings.getBusUri());
-            System.out.println(busResponse);
-
-            ObjectMapper mapper = new ObjectMapper();
-            List<BusReadResponse> readResponseList ;
-            try {
-                readResponseList = mapper.readValue(
-                        busResponse,
-                        mapper.getTypeFactory().constructCollectionType(List.class,
-                                BusReadResponse.class));
-            } catch (JsonMappingException e ){
-                return false;
+        for (WorkflowData workflowData : workflowDatas.getBody() ){
+            workflowDataRepository.save(workflowData);
+            for ( MeasureTask m :workflowData.getMeasureTasksList() ) {
+                measureTaskRepository.save(m);
             }
-
-            // empty old workflowdatas
-            workflowDataRepository.deleteAll();
-
-            for(BusReadResponse response : readResponseList ){
-                WorkflowData workflowData = mapper.treeToValue(response.getPayload(), WorkflowData.class);
-
-                workflowDataRepository.save(workflowData);
-            }
-
-
-        } catch (BusException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-
-
         return true;
     }
 
@@ -439,5 +410,15 @@ public class IntegratedPhase34BusInteractionService {
                 }
             }
         }
+    }
+
+    public Boolean updateLocalWorkflowXML(ResponseEntity<ArrayList<XmlWorkflow>> xmlWorkflows ) {
+
+        xmlWorkflowRepository.deleteAll();
+
+        for (XmlWorkflow xmlWorkflow : xmlWorkflows.getBody()) {
+            xmlWorkflowRepository.save(xmlWorkflow);
+        }
+        return true;
     }
 }
