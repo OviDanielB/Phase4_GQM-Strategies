@@ -11,6 +11,6 @@ import java.util.List;
  */
 public interface XmlWorkflowRepository extends MongoRepository<XmlWorkflow, String> {
 
-    public List<XmlWorkflow> findByBusinessWorkflowModelId(String businessWorkflowModelId);
+    public List<XmlWorkflow> findByName(String name);
 
 }
