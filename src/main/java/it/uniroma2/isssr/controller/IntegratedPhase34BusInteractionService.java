@@ -1,5 +1,7 @@
 package it.uniroma2.isssr.controller;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -421,4 +423,5 @@ public class IntegratedPhase34BusInteractionService {
         }
         return true;
     }
+
 }
