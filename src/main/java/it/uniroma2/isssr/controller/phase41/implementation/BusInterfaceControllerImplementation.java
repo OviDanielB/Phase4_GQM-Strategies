@@ -114,9 +114,12 @@ public class BusInterfaceControllerImplementation implements
 		integratedPhase34BusInteractionService.updateLocalStrategies();
 		integratedPhase34BusInteractionService.updateLocalStrategicPlans();
 
+
 		return ResponseEntity.status(HttpStatus.OK).body("Done.");
 
 	}
+
+
 
 	/** TODO PHASE4 CHANGE NEW NOTIFICATION TYPES!!
 	 *
@@ -455,7 +458,7 @@ public class BusInterfaceControllerImplementation implements
 			jo.put("tags", "[]");
 
 			BusMessage busMessage = new BusMessage(BusMessage.OPERATION_READ,
-					hostSettings.getPhaseName(), jo.toString());
+					"phase3", jo.toString());
 			String busResponse;
 			busResponse = busMessage.send(hostSettings.getBusUri());
 			System.out.println(busResponse);
@@ -540,7 +543,6 @@ public class BusInterfaceControllerImplementation implements
 		throw new BusException("ERROR: BUS Not present!");
 
 	}
-
 
 
 	/**
