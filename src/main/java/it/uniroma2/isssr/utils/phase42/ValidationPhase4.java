@@ -81,7 +81,7 @@ public class ValidationPhase4 {
 			return false;
 		}
 		Boolean hasUserDefinedList = metric.getHasUserDefinedList();
-		if(hasUserDefinedList){
+		if(hasUserDefinedList == null){
 			//è una stringa, quindi non la gestiamo
 			log.warn("Campo stringa non gestiamo e la ritorno true");
 			return true;

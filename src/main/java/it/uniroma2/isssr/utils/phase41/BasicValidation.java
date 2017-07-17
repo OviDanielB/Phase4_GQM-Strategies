@@ -16,7 +16,7 @@ public class BasicValidation {
 		double valueDouble;
 		int valueInt;
 
-		if (metric.getHasUserDefinedList()) {
+		if (metric.getHasUserDefinedList() != null) {
 			for (String userDefined : metric.getUserDefinedList()) {
 				if (userDefined.equals(value))
 					return true;

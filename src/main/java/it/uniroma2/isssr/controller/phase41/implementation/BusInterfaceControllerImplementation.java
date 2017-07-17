@@ -104,7 +104,8 @@ public class BusInterfaceControllerImplementation implements
 			JsonRequestConflictException {
 
 		systemStateRepository.deleteAll();
-		refreshUsers();
+//		refreshUsers();
+
 		refreshMetrics();
 
 		// TODO why not delete all?
@@ -750,7 +751,7 @@ public class BusInterfaceControllerImplementation implements
 			jsonGetUsers.put("instance", "");
 			jsonGetUsers.put("busVersion", "");
 
-			busMessage = new BusMessage(BusMessage.OPERATION_GETUSERS, "test",
+			busMessage = new BusMessage(BusMessage.OPERATION_GETUSERS, "phase4",
 					jsonGetUsers.toString());
 			responseFromBus = busMessage.send(address);
 			users = mapper.readValue(responseFromBus, mapper.getTypeFactory()

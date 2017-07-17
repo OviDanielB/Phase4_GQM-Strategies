@@ -14,12 +14,14 @@ import it.uniroma2.isssr.model.phase41.WorkflowData;
 import it.uniroma2.isssr.model.phase41.XmlWorkflow;
 import it.uniroma2.isssr.model.phase42.StrategicPlan;
 import it.uniroma2.isssr.model.phase42.Strategy;
+import it.uniroma2.isssr.model.phase42.ValidationOp;
 import it.uniroma2.isssr.repositories.phase41.MeasureTaskRepository;
 import it.uniroma2.isssr.repositories.phase41.SystemStateRepository;
 import it.uniroma2.isssr.repositories.phase41.WorkflowDataRepository;
 import it.uniroma2.isssr.repositories.phase41.XmlWorkflowRepository;
 import it.uniroma2.isssr.repositories.phase42.StrategicPlanRepository;
 import it.uniroma2.isssr.repositories.phase42.StrategyRepository;
+import it.uniroma2.isssr.repositories.phase42.ValidationOpRepository;
 import it.uniroma2.isssr.utils.BusObjectTypes;
 import org.json.JSONObject;
 import org.json.XML;
@@ -61,6 +63,9 @@ public class IntegratedPhase34BusInteractionService {
 
     @Autowired
     private XmlWorkflowRepository xmlWorkflowRepository;
+
+    @Autowired
+    private ValidationOpRepository validationOpRepository;
 
     /** TODO PHASE4 integrate with phase2
      * Get Strategies from Bus (saved by Phase2) and saves
@@ -188,6 +193,9 @@ public class IntegratedPhase34BusInteractionService {
             workflowDataRepository.save(workflowData);
             for ( MeasureTask m :workflowData.getMeasureTasksList() ) {
                 measureTaskRepository.save(m);
+                for (ValidationOp vo : m.getValidationIdList()) {
+                    validationOpRepository.save(vo);
+                }
             }
         }
         return true;

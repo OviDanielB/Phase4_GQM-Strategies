@@ -708,25 +708,19 @@ public class ValidationOpServiceImpl implements ValidationOpService {
 		
 		if(resultValidation){
 			DTO dto = new DTO();
-			dto.setMessage("L'operazione di validazione è stata "
-					+ "superata con successo");
+			dto.setMessage("L'operazione di validazione è stata superata con successo");
 			validationOp.setContromeasureDone(true);
 			validationOpRepository.save(validationOp);
-			ResponseEntity<DTO> responseEntity =
-					new ResponseEntity<DTO>(dto, HttpStatus.OK);
-			return responseEntity;
+			return new ResponseEntity<DTO>(dto, HttpStatus.OK);
 		}
 		else{
 			DTOResponseCountermeasures dtoResponseCountermeasures =
 					new DTOResponseCountermeasures();
 			dtoResponseCountermeasures.setCountermeasures(
 					validationOp.getCountermeasures());
-			dtoResponseCountermeasures.setMessage("L'operazione di validazione "
-					+ "non è stata superata");
-			ResponseEntity<DTOResponseCountermeasures> responseEntity =
-					new ResponseEntity<DTOResponseCountermeasures>(
-							dtoResponseCountermeasures, HttpStatus.OK);
-			return responseEntity;
+			dtoResponseCountermeasures.setMessage("L'operazione di validazione non è stata superata");
+			return new ResponseEntity<DTOResponseCountermeasures>(
+                    dtoResponseCountermeasures, HttpStatus.OK);
 		}
 		
 		

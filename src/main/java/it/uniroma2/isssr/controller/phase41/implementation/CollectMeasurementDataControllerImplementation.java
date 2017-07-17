@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Locale;
 
 @RestController
+@CrossOrigin(origins = "*")
 @Api(value = "Collect Measurement Data", description = "Collect Measurement Data API")
 public class CollectMeasurementDataControllerImplementation implements CollectMeasurementDataController {
 
