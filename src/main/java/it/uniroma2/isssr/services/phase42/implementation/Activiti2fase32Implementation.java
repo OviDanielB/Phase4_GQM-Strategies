@@ -741,12 +741,12 @@ public class Activiti2fase32Implementation implements Activiti2fase32 {
 		RestTemplate template=new RestTemplate();
 		
 		JSONArray properties = new JSONArray();
-		for(ActivitiFormVariableProperty activitiFormVariableProperty: activitiFormVariableProperties){
+		for(ActivitiFormVariableProperty activitiFormVariableProperty42 : activitiFormVariableProperties){
 			JSONObject propertyObject = new JSONObject();
-			propertyObject.put("id", activitiFormVariableProperty.getId());
-			propertyObject.put("value", activitiFormVariableProperty.getValue());
+			propertyObject.put("id", activitiFormVariableProperty42.getId());
+			propertyObject.put("value", activitiFormVariableProperty42.getValue());
 			properties.put(propertyObject);
-			log.warn(activitiFormVariableProperty.getId() + " "+ activitiFormVariableProperty.getValue());
+			log.warn(activitiFormVariableProperty42.getId() + " "+ activitiFormVariableProperty42.getValue());
 		}
 		JSONObject requestObject = new JSONObject();
 		requestObject.put("taskId", taskId);

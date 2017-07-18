@@ -2,11 +2,11 @@ package it.uniroma2.isssr.services.phase42.implementation;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import it.uniroma2.isssr.model.phase42.activiti.form.ActivitiFormVariableProperty;
 import it.uniroma2.isssr.services.phase42.ActivitiFormService;
 import it.uniroma2.isssr.exception.ActivitiGetException;
 import it.uniroma2.isssr.exception.ActivitiPostException;
 import it.uniroma2.isssr.model.phase42.activiti.form.ActivitiFormProperty;
-import it.uniroma2.isssr.model.phase42.activiti.form.ActivitiFormVariableProperty;
 import it.uniroma2.isssr.model.phase42.rest.DTO;
 import it.uniroma2.isssr.model.phase42.rest.response.activiti.DTOResponseActivitiFormProperty;
 import org.json.JSONException;

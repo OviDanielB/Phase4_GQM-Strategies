@@ -1,7 +1,5 @@
 package it.uniroma2.isssr.model.phase42;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -32,7 +30,7 @@ public class Strategy {
 	@Id
 	private String id;
 	
-	private String idF1;
+	private String idF2;
 	
 	/** The name. */
 	private String name;
@@ -218,12 +216,12 @@ public class Strategy {
 		this.release = release;
 	}
 
-	public String getIdF1() {
-		return idF1;
+	public String getIdF2() {
+		return idF2;
 	}
 
-	public void setIdF1(String idF1) {
-		this.idF1 = idF1;
+	public void setIdF2(String idF2) {
+		this.idF2 = idF2;
 	};
 	
 	

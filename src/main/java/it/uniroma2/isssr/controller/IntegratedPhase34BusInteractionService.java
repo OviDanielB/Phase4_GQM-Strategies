@@ -1,7 +1,5 @@
 package it.uniroma2.isssr.controller;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -18,27 +16,21 @@ import it.uniroma2.isssr.model.phase42.StrategicPlan;
 import it.uniroma2.isssr.model.phase42.Strategy;
 import it.uniroma2.isssr.model.phase42.ValidationOp;
 import it.uniroma2.isssr.repositories.phase41.MeasureTaskRepository;
-import it.uniroma2.isssr.repositories.phase41.SystemStateRepository;
 import it.uniroma2.isssr.repositories.phase41.WorkflowDataRepository;
 import it.uniroma2.isssr.repositories.phase41.XmlWorkflowRepository;
 import it.uniroma2.isssr.repositories.phase42.StrategicPlanRepository;
 import it.uniroma2.isssr.repositories.phase42.StrategyRepository;
 import it.uniroma2.isssr.repositories.phase42.ValidationOpRepository;
 import it.uniroma2.isssr.utils.BusObjectTypes;
+import org.json.JSONArray;
 import org.json.JSONObject;
-import org.json.XML;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.json.GsonJsonParser;
-import org.springframework.boot.json.JacksonJsonParser;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 /**
@@ -195,8 +187,10 @@ public class IntegratedPhase34BusInteractionService {
             workflowDataRepository.save(workflowData);
             for ( MeasureTask m :workflowData.getMeasureTasksList() ) {
                 measureTaskRepository.save(m);
-                for (ValidationOp vo : m.getValidationIdList()) {
-                    validationOpRepository.save(vo);
+                if(m.getValidationIdList() != null){
+                    for (ValidationOp vo : m.getValidationIdList()) {
+                        validationOpRepository.save(vo);
+                    }
                 }
             }
         }
@@ -216,6 +210,7 @@ public class IntegratedPhase34BusInteractionService {
         jo.put("typeObj", BusObjectTypes.STRATEGIC_PLAN);
         jo.put("instance", "");
         jo.put("busVersion", "");
+        jo.put("encode","base64");
         jo.put("tags", "[]");
 
         try {
@@ -226,24 +221,47 @@ public class IntegratedPhase34BusInteractionService {
 
             ObjectMapper mapper = new ObjectMapper();
 
-            List<BusReadResponse> readResponseList ;
-            try {
-                readResponseList = mapper.readValue(
-                        busResponse,
-                        mapper.getTypeFactory().constructCollectionType(List.class,
-                                BusReadResponse.class));
-            } catch (JsonMappingException e){
-                return false;
-            }
+            JSONArray busResponsePayloadObject = new JSONArray(busResponse);
 
-            // empty old measure tasks
+
+            strategicPlanRepository.deleteAll();
+
+            for(int i = 0; i < busResponsePayloadObject.length(); i ++) {
+                JSONObject json = busResponsePayloadObject.getJSONObject(i);
+                JSONObject object = json.getJSONObject("payload");
+
+                String encoded = object.getString("object");
+                System.out.println("ENCODED " + encoded);
+                byte[] decodedBArray = Base64.getDecoder().decode(encoded);
+                String decoded = new String(decodedBArray, "UTF-8");
+
+                System.out.println("DECODED " + decoded);
+
+
+                try {
+                    StrategicPlan strategicPlan = mapper.readValue(decoded, StrategicPlan.class);
+                    System.out.println(strategicPlan.toString());
+
+
+                    strategicPlanRepository.save(strategicPlan);
+
+ /*               readResponseList = mapper.readValue(
+                        decoded,
+                        mapper.getTypeFactory().constructCollectionType(List.class,
+                                BusReadResponse.class));*/
+                } catch (JsonMappingException e) {
+                    return false;
+                }
+
+            }
+/*            // empty old measure tasks
             strategicPlanRepository.deleteAll();
 
             for(BusReadResponse response : readResponseList ){
                 StrategicPlan strategicPlan = mapper.treeToValue(response.getPayload(), StrategicPlan.class);
 
                 strategicPlanRepository.save(strategicPlan);
-            }
+            }*/
 
 
         } catch (BusException e) {
@@ -251,6 +269,8 @@ public class IntegratedPhase34BusInteractionService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
 
 
         return true;
@@ -262,7 +282,7 @@ public class IntegratedPhase34BusInteractionService {
         strategy.setId("3");
         strategy.setName("ciao");
         strategy.setDescription("booo");
-        strategy.setIdF1("5");
+        strategy.setIdF2("5");
         strategy.setOrganizational_Unit("unit");
         strategy.setOrganizationalunitId("6");
         strategy.setOrganizationalunit("unit");

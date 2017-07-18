@@ -4,11 +4,11 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import it.uniroma2.isssr.exception.*;
 import it.uniroma2.isssr.dto.activiti.entity.TaskVariable;
+import it.uniroma2.isssr.model.phase42.activiti.form.ActivitiFormVariableProperty;
 import it.uniroma2.isssr.services.phase42.Gqm3141Service;
 import it.uniroma2.isssr.services.phase42.VariableActivitiService;
 import it.uniroma2.isssr.model.phase41.MeasureTask;
 import it.uniroma2.isssr.model.phase42.VariableActiviti;
-import it.uniroma2.isssr.model.phase42.activiti.form.ActivitiFormVariableProperty;
 import it.uniroma2.isssr.model.phase42.activiti.task.ActivitiTask;
 import it.uniroma2.isssr.model.phase42.rest.DTO;
 import it.uniroma2.isssr.model.phase42.rest.DTOVariableActiviti;
@@ -159,7 +159,7 @@ public class Gqm3141ServiceImplementation implements Gqm3141Service {
 		
 		//controllo per body vuoto
 		
-		List<ActivitiFormVariableProperty> activitiFormVariableProperties = 
+		List<ActivitiFormVariableProperty> activitiFormVariableProperties =
 				variableActiviti.getProperties();
 		activitiInterationImplementation.submitFormDataAndCompleteTask(taskId,activitiFormVariableProperties );
 		variableActivitiService.deleteVariableActiviti(taskId);
@@ -243,7 +243,7 @@ public class Gqm3141ServiceImplementation implements Gqm3141Service {
 		
 		//controllo per body vuoto
 		
-		List<ActivitiFormVariableProperty> actformVarProperties = 
+		List<ActivitiFormVariableProperty> actformVarProperties =
 				variableActiviti.getProperties();
 		activitiInterationImplementation.submitFormDataAndCompleteTask(taskIdRun,actformVarProperties );
 		variableActivitiService.deleteVariableActiviti(taskIdRun);

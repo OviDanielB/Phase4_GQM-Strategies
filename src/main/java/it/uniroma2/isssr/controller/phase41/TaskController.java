@@ -4,7 +4,7 @@ package it.uniroma2.isssr.controller.phase41;
 import it.uniroma2.isssr.exception.BackEnd3242Exception;
 import it.uniroma2.isssr.exception.JsonRequestConflictException;
 import it.uniroma2.isssr.exception.JsonRequestException;
-import it.uniroma2.isssr.dto.activiti.entity.ActivitiFormVariableProperty;
+import it.uniroma2.isssr.model.phase42.activiti.form.ActivitiFormVariableProperty;
 import it.uniroma2.isssr.dto.activiti.entitylist.TaskList;
 import it.uniroma2.isssr.dto.post.PostClaimTask;
 import it.uniroma2.isssr.dto.response.ResponseDescription;

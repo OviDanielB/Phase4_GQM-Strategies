@@ -122,9 +122,9 @@ public class StrategyServiceImpl32 implements StrategyService {
 		// elimino le strategy non esistenti
 		for (Strategy strategy : actualStrategies) {
 			// DTOStrategyFrom1 dtos2 = new DTOStrategyFrom1();
-			// dtos2.setId(strategy.getIdF1());
+			// dtos2.setId(strategy.getIdF2());
 			for (DTOStrategyFrom1 dtoStrategyFrom1 : upToDateStr) {
-				if (!dtoStrategyFrom1.getId().equals(strategy.getIdF1())) {
+				if (!dtoStrategyFrom1.getId().equals(strategy.getIdF2())) {
 //					strategyRepository.delete(strategy);
 					break;
 				}
@@ -143,7 +143,7 @@ public class StrategyServiceImpl32 implements StrategyService {
 					Strategy newStrategy = new Strategy(dtoSF2.getTitle(), dtoSF2.getDescription(),
 							dtoSF2.getOrganizationalUnitName(), dtoSF2.getOrganizationalUnitId(), dtoSF2.getRevisited(),
 							dtoSF2.getVersion(), 0);
-					newStrategy.setIdF1(dtoSF2.getId());
+					newStrategy.setIdF2(dtoSF2.getId());
 					strategyRepository.save(newStrategy);
 				} else {
 					Strategy toUpdate = mongoStrategy.get(0); // deve esserne

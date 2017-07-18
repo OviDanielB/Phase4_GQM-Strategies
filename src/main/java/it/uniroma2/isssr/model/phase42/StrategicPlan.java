@@ -427,4 +427,17 @@ public class StrategicPlan {
 		return null;
 	}
 
+	@Override
+	public String toString() {
+		return "StrategicPlan{" +
+				"id='" + id + '\'' +
+				", strategyWorkflowIds=" + strategyWorkflowIds +
+				", name='" + name + '\'' +
+				", description='" + description + '\'' +
+				", organizationalunit='" + organizationalunit + '\'' +
+				", attributes=" + attributes +
+				", version=" + version +
+				", release='" + release + '\'' +
+				'}';
+	}
 }

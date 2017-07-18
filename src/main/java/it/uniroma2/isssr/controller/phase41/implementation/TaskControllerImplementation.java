@@ -5,9 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import it.uniroma2.isssr.HostSettings;
-import it.uniroma2.isssr.exception.BackEnd3242Exception;
-import it.uniroma2.isssr.exception.JsonRequestConflictException;
-import it.uniroma2.isssr.exception.JsonRequestException;
+import it.uniroma2.isssr.exception.*;
 import it.uniroma2.isssr.controller.phase41.TaskController;
 import it.uniroma2.isssr.dto.ErrorResponse;
 import it.uniroma2.isssr.dto.activiti.entity.*;
@@ -16,7 +14,9 @@ import it.uniroma2.isssr.dto.activiti.entitylist.TaskList;
 import it.uniroma2.isssr.dto.post.PostClaimTask;
 import it.uniroma2.isssr.dto.post.PostQueryTask;
 import it.uniroma2.isssr.dto.response.ResponseDescription;
+import it.uniroma2.isssr.model.phase42.activiti.form.ActivitiFormVariableProperty;
 import it.uniroma2.isssr.repositories.phase41.WorkflowDataRepository;
+import it.uniroma2.isssr.services.phase42.Gqm3141Service;
 import it.uniroma2.isssr.utils.phase41.Costants;
 import it.uniroma2.isssr.utils.phase41.JsonRequestActiviti;
 import org.slf4j.Logger;
@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -52,6 +53,9 @@ public class TaskControllerImplementation implements TaskController {
 
 	@Autowired
     RestTemplate restTemplate;
+
+	@Autowired
+	Gqm3141Service gqm3141Service;
 
 	private static final String ACTION_CLAIM = "claim";
 
@@ -88,6 +92,7 @@ public class TaskControllerImplementation implements TaskController {
 
 		// Get all groups for assignee
 		Map<String, String> queryParams = new LinkedHashMap<String, String>();
+
 		queryParams.put("member", assignee);
 
 		@SuppressWarnings("unchecked")
@@ -147,6 +152,8 @@ public class TaskControllerImplementation implements TaskController {
 
 		// for every group of this assignee return tasks unassigned
 		for (GroupActiviti groupActiviti : groupActivitiList) {
+
+			System.out.println(groupActiviti.getName());
 
 			taskVariables.add(new TaskVariable(hostSettings.getActivitiTaskVariableResponsible(),
 					groupActiviti.getName(), Costants.OPERATION_EQUALS, Costants.STRING_TYPE));
@@ -432,6 +439,8 @@ public class TaskControllerImplementation implements TaskController {
 						new ParameterizedTypeReference<List<Variable>>() {
 						});
 
+				System.out.println(variableListResponse.getBody().toString());
+
 				List<Variable> variableList = variableListResponse.getBody();
 				// if state == 1 or state == 3 change status to 2, responsible
 				// in validator, assignee empty. In case the state is 3 delete
@@ -512,7 +521,8 @@ public class TaskControllerImplementation implements TaskController {
 				// a
 				// task that requires measure
 
-				@SuppressWarnings("rawtypes")
+				// TODO remove comments
+/*				@SuppressWarnings("rawtypes")
                 RequestEntity request = RequestEntity.post(new URI(hostSettings.getWebapp3242EndpointTestBackend()
 						+ hostSettings.getWebapp3242EndpointCompleteTask() + taskId)).body(variables);
 				ResponseEntity<String> response = restTemplate.exchange(request, String.class);
@@ -521,7 +531,23 @@ public class TaskControllerImplementation implements TaskController {
 						|| response.getStatusCode().equals(HttpStatus.CREATED))
 					return ResponseEntity.status(HttpStatus.OK).body("Task completed successfully!");
 				else
-					throw new BackEnd3242Exception();
+					throw new BackEnd3242Exception();*/
+
+				try {
+					gqm3141Service.completeUserTask(taskId,variables);
+				} catch (EntityNotFoundException e1) {
+					e1.printStackTrace();
+				} catch (AnomalySystemException e1) {
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				} catch (ActivitiGetException e1) {
+					e1.printStackTrace();
+				} catch (ActivitiPostException e1) {
+					e1.printStackTrace();
+				}
+
+				return ResponseEntity.status(HttpStatus.OK).body("Task completed successfully!");
 
 			} else
 				throw e;
