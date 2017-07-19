@@ -6,7 +6,7 @@
 	<groupId>it.uniroma2.isssr</groupId>
 	<artifactId>gqm_phase4</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<!--<packaging>war</packaging>-->
+	<packaging>war</packaging>
 
 	<name>gqm_phase4</name>
 	<description>Demo project for Spring Boot</description>
