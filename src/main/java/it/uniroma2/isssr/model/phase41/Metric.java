@@ -532,4 +532,34 @@ public class Metric {
 		this.additionalProperties.put(name, value);
 	}
 
+	@Override
+	public String toString() {
+		return "Metric{" +
+				"busVersion='" + busVersion + '\'' +
+				", ordered=" + ordered +
+				", set='" + set + '\'' +
+				", max=" + max +
+				", entityType='" + entityType + '\'' +
+				", secretToken='" + secretToken + '\'' +
+				", creatorId='" + creatorId + '\'' +
+				", description='" + description + '\'' +
+				", creationDate='" + creationDate + '\'' +
+				", version='" + version + '\'' +
+				", releaseNote='" + releaseNote + '\'' +
+				", hasMax=" + hasMax +
+				", tags=" + tags +
+				", unit='" + unit + '\'' +
+				", min=" + min +
+				", scaleType='" + scaleType + '\'' +
+				", hasUserDefinedList=" + hasUserDefinedList +
+				", userDefinedList=" + userDefinedList +
+				", name='" + name + '\'' +
+				", lastVersionDate='" + lastVersionDate + '\'' +
+				", id='" + id + '\'' +
+				", state='" + state + '\'' +
+				", hasMin=" + hasMin +
+				", metricatorId='" + metricatorId + '\'' +
+				", additionalProperties=" + additionalProperties +
+				'}';
+	}
 }

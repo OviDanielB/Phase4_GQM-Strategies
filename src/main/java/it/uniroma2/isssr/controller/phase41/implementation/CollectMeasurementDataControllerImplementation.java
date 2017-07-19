@@ -92,6 +92,8 @@ public class CollectMeasurementDataControllerImplementation implements CollectMe
 				if (measureTask.getTaskId().equals(collectedData.getTaskId())) {
 
 					Metric metric = measureTask.getMetric();
+
+					System.out.println(metric.toString());
 					// basic validation
 					if (BasicValidation.isValid(metric, collectedData.getValue())) {
 
