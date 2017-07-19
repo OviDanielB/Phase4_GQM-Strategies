@@ -315,8 +315,16 @@ public class Activiti2fase32Implementation implements Activiti2fase32 {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	      return activitiProcessInvolvedPeopleList.get(0);
-	      
+		if (activitiProcessInvolvedPeopleList != null) {
+			if (activitiProcessInvolvedPeopleList.size() != 0) {
+				return activitiProcessInvolvedPeopleList.get(0);
+			} else {
+				return new ActivitiProcessInvolvedPeople();
+			}
+		} else {
+			return new ActivitiProcessInvolvedPeople();
+		}
+
 	}
 	
 	/**
