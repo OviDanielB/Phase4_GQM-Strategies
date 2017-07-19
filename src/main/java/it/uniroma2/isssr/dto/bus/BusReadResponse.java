@@ -136,4 +136,16 @@ public class BusReadResponse {
 		this.additionalProperties.put(name, value);
 	}
 
+	@Override
+	public String toString() {
+		return "BusReadResponse{" +
+				"busVersion='" + busVersion + '\'' +
+				", instance='" + instance + '\'' +
+				", payload=" + payload +
+				", typeObj='" + typeObj + '\'' +
+				", err='" + err + '\'' +
+				", msg='" + msg + '\'' +
+				", additionalProperties=" + additionalProperties +
+				'}';
+	}
 }

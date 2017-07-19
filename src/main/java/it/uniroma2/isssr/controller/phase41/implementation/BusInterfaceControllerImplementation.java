@@ -44,6 +44,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpInputMessage;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -104,18 +105,26 @@ public class BusInterfaceControllerImplementation implements
 			JsonRequestConflictException {
 
 		systemStateRepository.deleteAll();
+
 //		refreshUsers();
 
 		refreshMetrics();
 
 		// TODO why not delete all?
-		integratedPhase34BusInteractionService.updateLocalMeasureTasks();
-		integratedPhase34BusInteractionService.updateLocalWorkflowData(getWorkflowData());
-		integratedPhase34BusInteractionService.updateLocalStrategies();
-		integratedPhase34BusInteractionService.updateLocalStrategicPlans();
+		// TODO uncomment
+		//integratedPhase34BusInteractionService.deleteAllAndUpdateLocalStrategies();
+		Boolean strategiesUpdated = integratedPhase34BusInteractionService.updateLocalStrategiesBase64();
+		Boolean measureTasksUpdated = integratedPhase34BusInteractionService.deleteAllAndUpdateLocalMeasureTasks();
+		Boolean workflowDataUpdated = integratedPhase34BusInteractionService.deleteAllAndUpdateLocalWorkflowData(getWorkflowData());
+		Boolean strategicPlansUpdated =integratedPhase34BusInteractionService.deleteAllAndUpdateLocalStrategicPlans();
+		Boolean ontologiesUpdated = integratedPhase34BusInteractionService.deleteAllAndUpdateLocalOntologies();
 
 
-		return ResponseEntity.status(HttpStatus.OK).body("Done.");
+		if(strategicPlansUpdated && measureTasksUpdated && strategiesUpdated && workflowDataUpdated && ontologiesUpdated ) {
+			return ResponseEntity.status(HttpStatus.OK).body("Done.");
+		} else {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Some items were not correctly pulled from bus!");
+		}
 
 	}
 
@@ -167,20 +176,27 @@ public class BusInterfaceControllerImplementation implements
 					/** if new workflow data is present on bus (from phase 3) */
 				} else if(typeObj.equals(BusObjectTypes.WORKFLOW_DATA)) {
 
-					integratedPhase34BusInteractionService.updateLocalWorkflowData(getWorkflowData());
+					integratedPhase34BusInteractionService.deleteAllAndUpdateLocalWorkflowData(getWorkflowData());
 
 					/** new measure task is available on bus (from phase 3) */
 				}else if(typeObj.equals(BusObjectTypes.MEASURE_TASK)) {
 
-					integratedPhase34BusInteractionService.updateLocalMeasureTasks();
+					integratedPhase34BusInteractionService.deleteAllAndUpdateLocalMeasureTasks();
 
 					/** new strategic plan is available on bus (from phase 3) */
 				} else if(typeObj.equals(BusObjectTypes.STRATEGIC_PLAN)) {
-                    integratedPhase34BusInteractionService.updateLocalStrategicPlans();
+                    integratedPhase34BusInteractionService.deleteAllAndUpdateLocalStrategicPlans();
 
-                    /** new strategy is available on bus (from phase 2) */
-                }else if(typeObj.equals(BusObjectTypes.STRATEGY)) {
-				    integratedPhase34BusInteractionService.updateLocalStrategies();
+					/** new ontology is available on bus (from phase 2) */
+                }else if(typeObj.equals(BusObjectTypes.ONTOLOGY)){
+					integratedPhase34BusInteractionService.deleteAllAndUpdateLocalOntologies();
+
+					/** new strategy is available on bus (from phase 2) */
+				}else if(typeObj.equals(BusObjectTypes.STRATEGY)) {
+
+					// TODO remove comment if necessary
+				    //integratedPhase34BusInteractionService.deleteAllAndUpdateLocalStrategies();
+					integratedPhase34BusInteractionService.updateLocalStrategiesBase64();
 
 				/** base64 encoded issue message */
 				} else if (typeObj.equals("base64-" + IssueMessage.class.getSimpleName()) && operation.equals(BusMessage.OPERATION_CREATE)) {

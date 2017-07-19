@@ -17,6 +17,20 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class HostSettings {
 
+	public  enum state {
+		MODIFIED(0), NOT_MODIFIED(1), NEW(2);
+
+		private int value;
+
+		private state(int value) {
+			this.value = value;
+		}
+
+		public int getValue() {
+			return value;
+		}
+	}
+
 	@Value("${host.address}")
 	private String address;
 
