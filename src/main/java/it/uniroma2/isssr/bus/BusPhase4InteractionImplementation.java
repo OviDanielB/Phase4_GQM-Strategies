@@ -120,7 +120,7 @@ public class BusPhase4InteractionImplementation implements BusPhase4Interaction 
             return "ProcessId is corrupted.";
         workflowData = collectedData.get(0).getWorkflowData().getBusinessWorkflowModelId();
         if (workflowData == null)
-            return "can't find data regarding the choosen workflow ";
+            return "can't find data regarding the chosen workflow ";
 
         query = new Query();
         query.addCriteria(Criteria.where("taskId").is(taskId));
