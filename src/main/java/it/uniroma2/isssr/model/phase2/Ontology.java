@@ -2,7 +2,8 @@ package it.uniroma2.isssr.model.phase2;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import it.uniroma2.isssr.gqm3.model.ontologyPhase2.attribute.*;
+import it.uniroma2.isssr.model.phase2.attribute.External;
+import it.uniroma2.isssr.model.phase2.attribute.Internal;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
