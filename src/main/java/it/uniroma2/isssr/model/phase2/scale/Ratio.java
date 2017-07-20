@@ -1,7 +1,6 @@
 package it.uniroma2.isssr.model.phase2.scale;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  * Created by ovidiudanielbarba on 19/07/2017.

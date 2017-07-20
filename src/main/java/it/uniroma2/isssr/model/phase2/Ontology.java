@@ -2,9 +2,7 @@ package it.uniroma2.isssr.model.phase2;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import it.uniroma2.isssr.model.phase2.attribute.*;
-import it.uniroma2.isssr.model.phase2.measurementModel.MeasurementModel;
-import it.uniroma2.isssr.model.phase2.scale.Scale;
+import it.uniroma2.isssr.gqm3.model.ontologyPhase2.attribute.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
