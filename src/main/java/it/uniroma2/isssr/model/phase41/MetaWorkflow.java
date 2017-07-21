@@ -166,9 +166,9 @@ public class MetaWorkflow extends Workflow {
 	public void sendMessage(String messageType, String messageBody) throws JsonRequestException, IssueMessageCatcherNotFoundException, JsonRequestConflictException{
 		
 		if( messageType == WorkflowMessage.MESSAGE_EVENT_SUBSCRIPTION_NAME_ISSUE_MESSAGE){
-			
-			updateVariablesAfterFeedback( messageBody);
+			updateVariablesAfterFeedback(messageBody);
 		}
+
 		String messageCatcherId = this.getMessageCatcherId(messageType);
 
 		PutMessage putMessage = new PutMessage();

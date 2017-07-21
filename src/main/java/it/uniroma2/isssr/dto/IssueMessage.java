@@ -16,15 +16,36 @@ public class IssueMessage {
 
 	@JsonProperty("businessWorkflowProcessInstanceId")
 	private String businessWorkflowProcessInstanceId;
-	@JsonProperty("issueMessage")
-	private String issueMessage;
+	@JsonProperty("taskId")
+	private String taskId;
+	@JsonProperty("messageContent")
+	private String messageContent;
+	@JsonProperty("messageType")
+	private String messageType;
 	@JsonProperty("issueMessageResources")
 	private List<IssueMessageResource> issueMessageResources = new ArrayList<IssueMessageResource>();
 	@JsonIgnore
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
+	public String getMessageContent() {
+		return messageContent;
+	}
+
+	public void setMessageContent(String messageContent) {
+		this.messageContent = messageContent;
+	}
+
+	public String getMessageType() {
+		return messageType;
+	}
+
+	public void setMessageType(String messageType) {
+		this.messageType = messageType;
+	}
+
 	/**
-	 * 
+
+	 *
 	 * @return The businessWorkflowProcessInstanceId
 	 */
 	@JsonProperty("businessWorkflowProcessInstanceId")
@@ -32,8 +53,16 @@ public class IssueMessage {
 		return businessWorkflowProcessInstanceId;
 	}
 
+	public String getTaskId() {
+		return taskId;
+	}
+
+	public void setTaskId(String taskId) {
+		this.taskId = taskId;
+	}
+
 	/**
-	 * 
+	 *
 	 * @param businessWorkflowProcessInstanceId
 	 *            The businessWorkflowProcessInstanceId
 	 */
@@ -42,24 +71,6 @@ public class IssueMessage {
 		this.businessWorkflowProcessInstanceId = businessWorkflowProcessInstanceId;
 	}
 
-	/**
-	 * 
-	 * @return The issueMessage
-	 */
-	@JsonProperty("issueMessage")
-	public String getIssueMessage() {
-		return issueMessage;
-	}
-
-	/**
-	 * 
-	 * @param issueMessage
-	 *            The issueMessage
-	 */
-	@JsonProperty("issueMessage")
-	public void setIssueMessage(String issueMessage) {
-		this.issueMessage = issueMessage;
-	}
 
 	/**
 	 * 

@@ -14,8 +14,10 @@ public class BusIssueMessage {
 
 	@JsonProperty("businessWorkflowInstanceId")
 	private String businessWorkflowInstanceId;
-	@JsonProperty("issueMessage")
-	private String issueMessage;
+	@JsonProperty("messageContent")
+	private String messageContent;
+	@JsonProperty("messageType")
+	private String messageType;
 	@JsonProperty("issueMessageResources")
 	private String issueMessageResources;
 	@JsonIgnore
@@ -40,23 +42,20 @@ public class BusIssueMessage {
 		this.businessWorkflowInstanceId = businessWorkflowInstanceId;
 	}
 
-	/**
-	 * 
-	 * @return The issueMessage
-	 */
-	@JsonProperty("issueMessage")
-	public String getIssueMessage() {
-		return issueMessage;
+	public String getMessageContent() {
+		return messageContent;
 	}
 
-	/**
-	 * 
-	 * @param issueMessage
-	 *            The issueMessage
-	 */
-	@JsonProperty("issueMessage")
-	public void setIssueMessage(String issueMessage) {
-		this.issueMessage = issueMessage;
+	public void setMessageContent(String messageContent) {
+		this.messageContent = messageContent;
+	}
+
+	public String getMessageType() {
+		return messageType;
+	}
+
+	public void setMessageType(String messageType) {
+		this.messageType = messageType;
 	}
 
 	/**

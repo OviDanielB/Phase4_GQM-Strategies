@@ -44,7 +44,7 @@ public class RestPresentationBus {
 	public ResponseEntity<DTOResponseStrategy> createPhase56() {
 
 		DTOResponseStrategy result = new DTOResponseStrategy();
-		result.setMessage(bus.saveValitatedDataOnBus("sid-9C821864-D5BC-4680-89F5-1C8E6CF57C50"));
+		result.setMessage(bus.saveValitatedDataOnBus("task1"));
 		return new ResponseEntity<DTOResponseStrategy>(result, HttpStatus.OK);
 
 	}
