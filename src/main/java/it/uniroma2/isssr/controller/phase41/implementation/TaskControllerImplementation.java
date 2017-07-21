@@ -130,6 +130,8 @@ public class TaskControllerImplementation implements TaskController {
 						+ workflowDataRepository.findByBusinessWorkflowProcessInstanceId(task.getProcessInstanceId())
 								.get(0).getBusinessWorkflowName()
 						+ Costants.DATA_COLLECTOR_PAGE_2 + task.getId() + Costants.MEASURE_TASK_DOCUMENTATION_3);
+
+				System.out.println(task.getDescription());
 			}
 
 			taskList.getData().addAll(taskListEntity.getBody().getData());
