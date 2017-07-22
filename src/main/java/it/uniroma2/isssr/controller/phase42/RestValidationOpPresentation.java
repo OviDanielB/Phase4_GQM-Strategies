@@ -137,13 +137,13 @@ public class RestValidationOpPresentation {
 	 * @throws EntityNotFoundException 
 	 * @throws AnomalySystemException 
 	 */
-	
+/*		TODO REMOVE PHASE3
 	@RequestMapping(value = "/validationOp", method = RequestMethod.POST)
 	public ResponseEntity<?> createValidationOp(
 			@RequestBody DTOValidationOp dtoValidationOp) throws BodyEmptyException, IdKeyNullException, EntityNotFoundException, AnomalySystemException{
 		return validationOpService.createValidationOp(dtoValidationOp);
 	}
-	
+	*/
 	/**
 	 * Metodo pensato come endpoint per offrire un servizio Rest per un
 	 * aggiornamento di una ValidationOp. Qui è da evidenziare come
@@ -174,12 +174,14 @@ public class RestValidationOpPresentation {
 	 * @throws AnomalySystemException 
 	 * 
 	 */
-	 
+/*	    TODO REMOVE PHASE3
 	@RequestMapping(value = "/validationOp", method = RequestMethod.DELETE)
 	public ResponseEntity<?> deleteValidationOp(
 			@RequestParam("id") String id) throws AnomalySystemException, EntityNotFoundException{
 		return validationOpService.deleteValidationOp(id);
 	}
+	*/
+
 	/**
 	 * creo un measureTask (per debug)
 	 * @param dtoMeasureTask
@@ -242,10 +244,16 @@ public class RestValidationOpPresentation {
 	 * Completa validazione
 	 */
 	@RequestMapping(value = "/completeValidation", method = RequestMethod.GET)
-	public ResponseEntity<?> completeValidation(@RequestParam("taskId") String taskId)
+	public ResponseEntity<?> completeValidation(@RequestParam("taskId") String taskId,@RequestParam("validationOpId") String validationOpId)
 			throws JsonParseException, JsonMappingException, IOException, ActivitiGetException, EntityNotFoundException, AnomalySystemException, BodyEmptyException, IdKeyNullException{
-		return validationOpService.completeValidation(taskId);
+		System.out.println("Trying to validate task " + taskId + "with validation op " + validationOpId);
+		return validationOpService.completeValidation(taskId,validationOpId);
 				
+	}
+
+	@RequestMapping(value = "/saveCollectedDataOnBus", method = RequestMethod.GET)
+	public ResponseEntity<?> saveValidatedDataOnBus(@RequestParam("taskId") String taskId){
+		return validationOpService.saveValidatedDataOnBus(taskId);
 	}
 
 }

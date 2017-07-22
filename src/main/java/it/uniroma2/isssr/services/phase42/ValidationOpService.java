@@ -15,12 +15,15 @@ public interface ValidationOpService {
 
 	public ResponseEntity<?> getValidationOpListByMeasureTaskId(String measureTaskId, Phase phase) throws EntityNotFoundException, AnomalySystemException;
 
+/*	TODO REMOVE PHASE3
 	public ResponseEntity<?> createValidationOp(DTOValidationOp dtoValidationOp) throws BodyEmptyException, IdKeyNullException, EntityNotFoundException, AnomalySystemException;
-	
+
+*/
 	public ResponseEntity<?> updateValidationOp(String id,
                                                 DTOValidationOp dtoValidationOp) throws BodyEmptyException, EntityNotFoundException, IdKeyNullException, AnomalySystemException;
-
+/* TODO REMOVE PHASE3
 	public ResponseEntity<?> deleteValidationOp(String id) throws AnomalySystemException, EntityNotFoundException;
+*/
 
 	
 	public ResponseEntity<?> getValidationOp(String id) throws EntityNotFoundException;
@@ -34,6 +37,7 @@ public interface ValidationOpService {
 
 	public ResponseEntity<?> repeateMeasure(String idRuntimeTask, String idValidationOp, String errorMessage) throws JsonParseException, JsonMappingException, JSONException, IOException, ActivitiGetException, ActivitiPutException, AnomalySystemException, EntityNotFoundException;
 
-	public ResponseEntity<?> completeValidation(String idDataCollected) throws AnomalySystemException;
-	
+	public ResponseEntity<?> completeValidation(String idDataCollected,String validationOpId) throws AnomalySystemException;
+
+	ResponseEntity<?> saveValidatedDataOnBus(String taskId);
 }
