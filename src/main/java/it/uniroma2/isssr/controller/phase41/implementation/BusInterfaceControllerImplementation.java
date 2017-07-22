@@ -114,10 +114,10 @@ public class BusInterfaceControllerImplementation implements
 		// TODO uncomment
 		//integratedPhase34BusInteractionService.deleteAllAndUpdateLocalStrategies();
 		Boolean strategiesUpdated = integratedPhase34BusInteractionService.updateLocalStrategiesBase64();
+		Boolean ontologiesUpdated = integratedPhase34BusInteractionService.deleteAllAndUpdateLocalOntologies();
 		Boolean measureTasksUpdated = integratedPhase34BusInteractionService.deleteAllAndUpdateLocalMeasureTasks();
 		Boolean workflowDataUpdated = integratedPhase34BusInteractionService.deleteAllAndUpdateLocalWorkflowData(getWorkflowData());
 		Boolean strategicPlansUpdated =integratedPhase34BusInteractionService.deleteAllAndUpdateLocalStrategicPlans();
-		Boolean ontologiesUpdated = integratedPhase34BusInteractionService.deleteAllAndUpdateLocalOntologies();
 
 
 		if(strategicPlansUpdated && measureTasksUpdated && strategiesUpdated && workflowDataUpdated && ontologiesUpdated ) {
