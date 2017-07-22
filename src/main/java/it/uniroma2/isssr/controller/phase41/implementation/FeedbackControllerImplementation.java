@@ -59,7 +59,7 @@ public class FeedbackControllerImplementation implements FeedbackController {
 
 		MetaWorkflow metaWorkflow = new MetaWorkflow(hostSettings,
 				metaWorkflowProcessInstanceId);
-		metaWorkflow.sendMessage(workflowMessage.getActivitiMessageType(),
+		metaWorkflow.sendMessage(workflowMessage.getMessageType(),
 				workflowMessage.getMessageBody());
 
 	}
@@ -138,12 +138,13 @@ public class FeedbackControllerImplementation implements FeedbackController {
 		WorkflowData workflowData = workflowDataList.get(0);
 		workflowData.setMetaWorkflowProcessInstanceId(null);
 		workflowData.setBusinessWorkflowProcessInstanceId(null);
-	
+		workflowData.setEnded(true);
+
 		workflowDataRepository.save(workflowData);
 		
 		JSONObject json = new JSONObject();
 		json.put("result", "Business Workflow successfully terminated");
-		return new ResponseEntity<String>(json.toString(), HttpStatus.OK);
+		return new ResponseEntity<>(json.toString(), HttpStatus.OK);
 	}
 
 }

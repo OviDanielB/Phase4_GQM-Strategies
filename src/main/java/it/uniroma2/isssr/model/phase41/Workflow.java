@@ -196,7 +196,7 @@ public abstract class Workflow {
 			issueMessageCatcherId = executionList.get(0).getId();
 		} else {
 
-			throw new IssueMessageCatcherNotFoundException(getProcessDefinitionId());
+			throw new IssueMessageCatcherNotFoundException(getProcessInstanceId());
 		}
 		return issueMessageCatcherId;
 	}
