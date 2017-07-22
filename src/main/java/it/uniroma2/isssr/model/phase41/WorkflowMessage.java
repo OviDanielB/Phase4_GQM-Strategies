@@ -14,7 +14,9 @@ public class WorkflowMessage
 	public static final String MESSAGE_EVENT_SUBSCRIPTION_NAME_ENDING_MESSAGE = "workflowEndingMessage";
 
 	private String businessWorkflowProcessInstanceId;
+	private String activitiMessageType;
 	private String messageType;
+	private String messageContent;
 	private String messageBody;
 	
 	
@@ -23,13 +25,14 @@ public class WorkflowMessage
 		
 		if (issueMessage.getBusinessWorkflowProcessInstanceId() == null
 				|| issueMessage.getBusinessWorkflowProcessInstanceId().isEmpty()
-				|| issueMessage.getIssueMessage() == null || issueMessage.getIssueMessage().isEmpty()) {
+				|| issueMessage.getMessageType() == null || issueMessage.getMessageType().isEmpty()) {
 			throw new IllegalReceiveMessageRequestBodyException();
 		}
 		
 		this.businessWorkflowProcessInstanceId = issueMessage.getBusinessWorkflowProcessInstanceId();
-		this.messageType = MESSAGE_EVENT_SUBSCRIPTION_NAME_ISSUE_MESSAGE;
-		this.messageBody = issueMessage.getIssueMessage();
+		this.activitiMessageType = MESSAGE_EVENT_SUBSCRIPTION_NAME_ISSUE_MESSAGE;
+		this.messageType = issueMessage.getMessageType();
+		this.messageContent = issueMessage.getMessageContent();
 		
 		List<IssueMessageResource> issueMessageResources = issueMessage.getIssueMessageResources();
 
@@ -74,19 +77,21 @@ public class WorkflowMessage
 	{
 		return messageBody;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+	public String getActivitiMessageType() {
+		return activitiMessageType;
+	}
+
+	public void setActivitiMessageType(String activitiMessageType) {
+		this.activitiMessageType = activitiMessageType;
+	}
+
+	public String getMessageContent() {
+		return messageContent;
+	}
+
+	public void setMessageContent(String messageContent) {
+		this.messageContent = messageContent;
+	}
 }

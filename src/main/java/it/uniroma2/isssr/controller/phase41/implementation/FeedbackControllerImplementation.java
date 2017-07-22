@@ -48,10 +48,10 @@ public class FeedbackControllerImplementation implements FeedbackController {
 		List<WorkflowData> workflowDataList = workflowDataRepository
 				.findByBusinessWorkflowProcessInstanceId(businessWorkflowProcessInstanceId);
 
-        //TODO WorkflowDataList is always empty...
 		if (workflowDataList.size() <= 0) {
 			throw new WorkflowDataException();
 		}
+
 		WorkflowData workflowData = workflowDataList.get(0);
 
 		String metaWorkflowProcessInstanceId = workflowData
@@ -59,10 +59,9 @@ public class FeedbackControllerImplementation implements FeedbackController {
 
 		MetaWorkflow metaWorkflow = new MetaWorkflow(hostSettings,
 				metaWorkflowProcessInstanceId);
-		metaWorkflow.sendMessage(workflowMessage.getMessageType(),
+		metaWorkflow.sendMessage(workflowMessage.getActivitiMessageType(),
 				workflowMessage.getMessageBody());
 
-		return;
 	}
 
 	public static void receiveFeedbackMessage(IssueMessage issueMessage,
@@ -76,10 +75,10 @@ public class FeedbackControllerImplementation implements FeedbackController {
 
 		receiveMessage(workflowMessage, hostSettings, workflowDataRepository);
 
-		BusinessWorkflow businessWorkflow = new BusinessWorkflow(hostSettings);
-		businessWorkflow.setProcessInstanceId(issueMessage
-				.getBusinessWorkflowProcessInstanceId());
-		businessWorkflow.deleteProcessInstance();
+//		BusinessWorkflow businessWorkflow = new BusinessWorkflow(hostSettings);
+//		businessWorkflow.setProcessInstanceId(issueMessage
+//				.getBusinessWorkflowProcessInstanceId());
+//		businessWorkflow.deleteProcessInstance();
 		
 		List<WorkflowData> workflowDatas = workflowDataRepository.findByBusinessWorkflowProcessInstanceId(issueMessage
 				.getBusinessWorkflowProcessInstanceId());
@@ -131,19 +130,19 @@ public class FeedbackControllerImplementation implements FeedbackController {
 		businessWorkflow.setProcessInstanceId(businessWorkflowProcessInstanceId);
 		businessWorkflow.deleteProcessInstance();
 		
-		List<WorkflowData> workflowDatas = workflowDataRepository.findByBusinessWorkflowProcessInstanceId(businessWorkflowProcessInstanceId);
-		if (workflowDatas.size() != 1) {
+		List<WorkflowData> workflowDataList = workflowDataRepository.findByBusinessWorkflowProcessInstanceId(businessWorkflowProcessInstanceId);
+		if (workflowDataList.size() != 1) {
 			throw new WorkflowDataException();
 		}
 		
-		WorkflowData workflowData = workflowDatas.get(0);
+		WorkflowData workflowData = workflowDataList.get(0);
 		workflowData.setMetaWorkflowProcessInstanceId(null);
 		workflowData.setBusinessWorkflowProcessInstanceId(null);
 	
 		workflowDataRepository.save(workflowData);
 		
 		JSONObject json = new JSONObject();
-		json.put("result", "ok");
+		json.put("result", "Business Workflow successfully terminated");
 		return new ResponseEntity<String>(json.toString(), HttpStatus.OK);
 	}
 

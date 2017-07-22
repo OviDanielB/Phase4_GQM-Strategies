@@ -242,7 +242,8 @@ public class BusInterfaceControllerImplementation implements
 					}
 					IssueMessage issueMessage = new IssueMessage();
 					issueMessage.setBusinessWorkflowProcessInstanceId(busIssueMessage.getBusinessWorkflowInstanceId());
-					issueMessage.setIssueMessage(busIssueMessage.getIssueMessage());
+					issueMessage.setMessageContent(busIssueMessage.getMessageContent());
+					issueMessage.setMessageType(busIssueMessage.getMessageType());
 					if (busIssueMessage.getIssueMessageResources() != null && !busIssueMessage.getIssueMessageResources().isEmpty()) {
 						List<IssueMessageResource> issueMessageResources = mapper.readValue(busIssueMessage.getIssueMessageResources(),
 										mapper.getTypeFactory().constructCollectionType(List.class, IssueMessageResource.class));
@@ -259,77 +260,7 @@ public class BusInterfaceControllerImplementation implements
 		return ResponseEntity.status(HttpStatus.OK).body(busNotification);
 	}
 
-	@RequestMapping(value = "/bus/issueMessages", method = RequestMethod.GET)
-	@ApiOperation(value = "Get Issue Messages", notes = "This endpoint retrieves all issue messages from bus")
-	@ApiResponses(value = { @ApiResponse(code = 500, message = "See error code and message", response = ErrorResponse.class) })
-	public ResponseEntity<ArrayList<ResponseGetIssueMessages>> getIssueMessages()
-			throws BusException, IOException {
-		JSONObject readBody = new JSONObject();
-		readBody.put("objIdLocalToPhase", "");
-		readBody.put("typeObj", "base64-" + IssueMessage.class.getSimpleName());
-		readBody.put("instance", "");
-		readBody.put("busVersion", "");
-		readBody.put("tags", "[]");
 
-		BusMessage busMessage = new BusMessage(BusMessage.OPERATION_READ,
-				"phase5", readBody.toString());
-		String busResponse;
-		busResponse = busMessage.send(hostSettings.getBusUri());
-
-		ObjectMapper mapper = new ObjectMapper();
-		List<BusReadResponse> readResponseList = mapper.readValue(
-				busResponse,
-				mapper.getTypeFactory().constructCollectionType(List.class,
-						BusReadResponse.class));
-
-		ArrayList<ResponseGetIssueMessages> responseArray = new ArrayList<>();
-		for (BusReadResponse response : readResponseList) {
-			String busIssueMessageString = mapper.treeToValue(
-					response.getPayload(), String.class);
-			BusIssueMessage busIssueMessage = mapper.readValue(
-					busIssueMessageString, BusIssueMessage.class);
-
-			ResponseGetIssueMessages element = new ResponseGetIssueMessages();
-			element.setBusinessWorkflowInstanceId(busIssueMessage
-					.getBusinessWorkflowInstanceId());
-			element.setIssueMessage(busIssueMessage.getIssueMessage());
-			List<IssueMessageResource> listIssueMessageResources = new ArrayList<>();
-			if (busIssueMessage.getIssueMessageResources() != null
-					&& !busIssueMessage.getIssueMessageResources().isEmpty()) {
-				List<IssueMessageResource> issueMessageResources = mapper
-						.readValue(
-								busIssueMessage.getIssueMessageResources(),
-								mapper.getTypeFactory()
-										.constructCollectionType(List.class,
-												IssueMessageResource.class));
-				listIssueMessageResources.addAll(issueMessageResources);
-
-			}
-			String resourcesString = "";
-			for (IssueMessageResource resource : listIssueMessageResources) {
-				resourcesString += "Resource: " + resource.getName() + "<br>";
-				resourcesString += "Link: " + resource.getUrl() + "<br>";
-				resourcesString += "Description: " + resource.getDescription()
-						+ "<br>";
-			}
-			element.setIssueMessageResources(resourcesString);
-
-			String businessName = "";
-			List<WorkflowData> workflowDatas = workflowDataRepository
-					.findByBusinessWorkflowProcessInstanceId(busIssueMessage
-							.getBusinessWorkflowInstanceId());
-			if (workflowDatas.size() > 0) {
-				WorkflowData workflowData = workflowDatas.get(0);
-				businessName = workflowData.getBusinessWorkflowName();
-			}
-			element.setBusinessWorkflowName(businessName);
-
-			responseArray.add(element);
-		}
-		return new ResponseEntity<ArrayList<ResponseGetIssueMessages>>(
-				responseArray, HttpStatus.OK);
-
-	}
 
 	@RequestMapping(value = "/bus/issueMessages", method = RequestMethod.POST)
 	@ApiOperation(value = "Insert Issue Message", notes = "This endpoint creates an issue message")
@@ -340,7 +271,8 @@ public class BusInterfaceControllerImplementation implements
 			throws JSONException, BusException, IOException {
 
 		BusIssueMessage busIssueMessage = new BusIssueMessage();
-		busIssueMessage.setIssueMessage(issueMessage.getIssueMessage());
+		busIssueMessage.setMessageContent(issueMessage.getMessageContent());
+		busIssueMessage.setMessageType(issueMessage.getMessageType());
 		busIssueMessage.setBusinessWorkflowInstanceId(issueMessage
 				.getBusinessWorkflowProcessInstanceId());
 		busIssueMessage.setIssueMessageResources(new JSONArray(issueMessage
@@ -356,7 +288,7 @@ public class BusInterfaceControllerImplementation implements
 		System.out.println(jo.toString());
 
 		BusMessage busMessage = new BusMessage(BusMessage.OPERATION_CREATE,
-				"phase5", jo.toString());
+				"phase4", jo.toString());
 		String busResponse = busMessage.send(hostSettings.getBusUri());
 		return ResponseEntity.status(HttpStatus.OK).body(busResponse);
 	}
@@ -368,6 +300,11 @@ public class BusInterfaceControllerImplementation implements
                                                  HttpServletResponse response) {
 		// Not implemented
 		return ResponseEntity.status(HttpStatus.OK).body("");
+	}
+
+	@Override
+	public ResponseEntity<?> getIssueMessages() throws BusException, IOException {
+		return null;
 	}
 
 	@RequestMapping(value = "/bus/workflows", method = RequestMethod.POST)
