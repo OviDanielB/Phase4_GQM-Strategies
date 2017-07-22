@@ -31,6 +31,7 @@ import java.util.Locale;
 
 @RestController
 @Api(value = "Measurement Repeat", description = "Measurement Repeat API")
+@CrossOrigin(value = "*")
 public class MeasurementRepeatControllerImplementation implements MeasurementRepeatController {
 
 	@Autowired
@@ -54,7 +55,7 @@ public class MeasurementRepeatControllerImplementation implements MeasurementRep
 		if (measureTask != null) {
 
 
-			CollectedData collectedData = (CollectedData) collectedDataRepository.findOne(collectedDataId);
+			CollectedData collectedData = collectedDataRepository.findOne(collectedDataId);
 
 			if (collectedData != null)
 				return new ResponseEntity<ResponseMeasurementRepeat>(

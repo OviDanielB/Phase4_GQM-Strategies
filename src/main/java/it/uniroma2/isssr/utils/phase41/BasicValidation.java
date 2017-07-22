@@ -1,5 +1,7 @@
 package it.uniroma2.isssr.utils.phase41;
 
+import it.uniroma2.isssr.model.phase2.Ontology;
+import it.uniroma2.isssr.model.phase41.CollectedData;
 import it.uniroma2.isssr.model.phase41.Metric;
 
 public class BasicValidation {
@@ -48,4 +50,14 @@ public class BasicValidation {
 		return false;
 	}
 
+	/**
+	 *  TODO PHASE 4
+	 * @param ontology
+	 * @param collectedData
+	 * @return
+	 */
+	public static boolean isValidFromOntology(Ontology ontology, CollectedData collectedData) {
+
+		return true;
+	}
 }

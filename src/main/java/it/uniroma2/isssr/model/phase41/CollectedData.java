@@ -1,9 +1,12 @@
 package it.uniroma2.isssr.model.phase41;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import it.uniroma2.isssr.model.phase42.ValidationOp;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.List;
 
 /**
  * Classe del gruppo gqm3141
@@ -29,7 +32,25 @@ public class CollectedData {
 	private boolean validated;
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	private String date;
-	
+
+	/* for every validation Operation, there is an associated
+	* boolean in validatedList if collected data is validated
+	* according to that validation op */
+	@DBRef
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	private List<ValidationOp> validationOpList;
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	private List<Boolean> validatedList;
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	private boolean modified = false;
+
+
+	public boolean isModified() {return modified;}
+	public void setModified(boolean modified) {this.modified = modified;}
+	public List<ValidationOp> getValidationOpList() {return validationOpList;}
+	public void setValidationOpList(List<ValidationOp> validationOpList) {this.validationOpList = validationOpList;}
+	public List<Boolean> getValidatedList() {return validatedList;}
+	public void setValidatedList(List<Boolean> validatedList) {this.validatedList = validatedList;}
 	public String get_id() {
 		return _id;
 	}
@@ -66,5 +87,16 @@ public class CollectedData {
 	public void setDate(String date) {
 		this.date = date;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "CollectedData{" +
+				"_id='" + _id + '\'' +
+				", workflowData=" + workflowData +
+				", taskId='" + taskId + '\'' +
+				", value='" + value + '\'' +
+				", validated=" + validated +
+				", date='" + date + '\'' +
+				'}';
+	}
 }

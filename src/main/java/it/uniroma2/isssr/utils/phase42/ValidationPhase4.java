@@ -62,8 +62,8 @@ public class ValidationPhase4 {
 			case EXTERNAL_CONSISTENCY:
 				result = externalConsistency(cardinality, compType, userDefined,measureTaskId,thisOp,refOp,referenceParams,refMeasureTaskId);
 				break;
-		default:
-			result = false;
+			default:
+				result = false;
 		}
 		return result;
 	}
@@ -210,10 +210,12 @@ public class ValidationPhase4 {
 			return false;
 		}
 		Boolean hasUserDefinedList = metric.getHasUserDefinedList();
-		if(hasUserDefinedList){
-			//è una stringa, quindi non la gestiamo
-			log.warn("Stringa quindi non gestiamo");
-			return true;
+		if(hasUserDefinedList != null){
+			if(hasUserDefinedList) {
+				//è una stringa, quindi non la gestiamo
+				log.warn("Stringa quindi non gestiamo");
+				return true;
+			}
 		}
 		
 			String set = metric.getSet();

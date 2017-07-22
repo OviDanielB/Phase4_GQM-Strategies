@@ -9,6 +9,7 @@ import it.uniroma2.isssr.model.phase42.StrategicPlan;
 import it.uniroma2.isssr.model.phase42.Strategy;
 import it.uniroma2.isssr.model.phase42.rest.DTOPhase56;
 import it.uniroma2.isssr.model.phase42.rest.response.DTOResponseStrategy;
+import it.uniroma2.isssr.repositories.phase41.CollectedDataRepository;
 import it.uniroma2.isssr.repositories.phase42.StrategicPlanRepository;
 import it.uniroma2.isssr.repositories.phase42.StrategyRepository;
 import org.json.JSONArray;
@@ -45,6 +46,9 @@ public class BusPhase4InteractionImplementation implements BusPhase4Interaction 
 
     @Autowired
     HostSettings hostSettings;
+
+    @Autowired
+    CollectedDataRepository collectedDataRepository;
 
     // TODO PHASE4 maybe not used
     @Override
@@ -105,6 +109,11 @@ public class BusPhase4InteractionImplementation implements BusPhase4Interaction 
 
     @Override
     public String saveValitatedDataOnBus(String taskId) {
+
+        // TODO PHASE 4 change to validate only 1 collected data
+
+        List<CollectedData> collectedDataList = collectedDataRepository.findByTaskId(taskId);
+
 
         String processInstanceId = "", workflowData = "", metric = "";
         ArrayList<String> data = new ArrayList<String>();
