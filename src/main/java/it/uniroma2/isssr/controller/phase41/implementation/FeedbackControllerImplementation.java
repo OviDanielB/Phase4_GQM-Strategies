@@ -59,7 +59,7 @@ public class FeedbackControllerImplementation implements FeedbackController {
 
 		MetaWorkflow metaWorkflow = new MetaWorkflow(hostSettings,
 				metaWorkflowProcessInstanceId);
-		metaWorkflow.sendMessage(workflowMessage.getMessageType(),
+		metaWorkflow.sendMessage(workflowMessage.getActivitiMessageType(),
 				workflowMessage.getMessageBody());
 
 	}

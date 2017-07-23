@@ -55,7 +55,7 @@ public class WorkflowMessage
 		}
 		
 		this.businessWorkflowProcessInstanceId = endingMessage.getBusinessWorkflowProcessInstanceId();		
-		this.messageType = MESSAGE_EVENT_SUBSCRIPTION_NAME_ENDING_MESSAGE;
+		this.activitiMessageType = MESSAGE_EVENT_SUBSCRIPTION_NAME_ENDING_MESSAGE;
 		this.messageBody = null;
 	}
 	
