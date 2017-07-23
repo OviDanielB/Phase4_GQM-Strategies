@@ -13,10 +13,20 @@ public class DTOPhase56  {
 	
 	String businessWorkFlowInstanceId;
 	
-	String strategyRef;
+	String strategyReference;
 	
-	String metricRef;
-	
+	String ontologyReference;
+
+	String attributeMeasured;
+
+	public String getAttributeMeasured() {
+		return attributeMeasured;
+	}
+
+	public void setAttributeMeasured(String attributeMeasured) {
+		this.attributeMeasured = attributeMeasured;
+	}
+
 	public String getDataId() {
 		return dataId;
 	}
@@ -41,20 +51,20 @@ public class DTOPhase56  {
 		this.businessWorkFlowInstanceId = businessWorkFlowInstanceId;
 	}
 	
-	public String getStrategyRef() {
-		return strategyRef;
+	public String getStrategyReference() {
+		return strategyReference;
 	}
 	
-	public void setStrategyRef(String strategyRef) {
-		this.strategyRef = strategyRef;
+	public void setStrategyReference(String strategyReference) {
+		this.strategyReference = strategyReference;
 	}
 	
-	public String getMetricRef() {
-		return metricRef;
+	public String getOntologyReference() {
+		return ontologyReference;
 	}
 	
-	public void setMetricRef(String metricRef) {
-		this.metricRef = metricRef;
+	public void setOntologyReference(String ontologyReference) {
+		this.ontologyReference = ontologyReference;
 	}
 	
 	

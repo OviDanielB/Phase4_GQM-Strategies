@@ -10,8 +10,10 @@ import it.uniroma2.isssr.model.phase42.Strategy;
 import it.uniroma2.isssr.model.phase42.rest.DTOPhase56;
 import it.uniroma2.isssr.model.phase42.rest.response.DTOResponseStrategy;
 import it.uniroma2.isssr.repositories.phase41.CollectedDataRepository;
+import it.uniroma2.isssr.repositories.phase41.MeasureTaskRepository;
 import it.uniroma2.isssr.repositories.phase42.StrategicPlanRepository;
 import it.uniroma2.isssr.repositories.phase42.StrategyRepository;
+import it.uniroma2.isssr.utils.BusObjectTypes;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -49,6 +51,9 @@ public class BusPhase4InteractionImplementation implements BusPhase4Interaction 
 
     @Autowired
     CollectedDataRepository collectedDataRepository;
+
+    @Autowired
+    MeasureTaskRepository measureTaskRepository;
 
     // TODO PHASE4 maybe not used
     @Override
@@ -113,25 +118,33 @@ public class BusPhase4InteractionImplementation implements BusPhase4Interaction 
         // TODO PHASE 4 change to validate only 1 collected data
 
         List<CollectedData> collectedDataList = collectedDataRepository.findByTaskId(taskId);
+        List<MeasureTask> measureTaskList = measureTaskRepository.findByTaskId(taskId);
+
+        if(collectedDataList == null || measureTaskList == null){
+            return "Something went wrong!";
+        }
+
+        MeasureTask measureTask = measureTaskList.get(0);
 
 
-        String processInstanceId = "", workflowData = "", metric = "";
+
+/*        String processInstanceId = "", workflowData = "", metric = "";
         ArrayList<String> data = new ArrayList<String>();
         Query query = new Query();
         query.addCriteria(Criteria.where("taskId").is(taskId));
         query.addCriteria(Criteria.where("validated").is(true));
         List<CollectedData> collectedData = mongoTemplate.find(query, CollectedData.class);
         if (collectedData.isEmpty())
-            return "Can't find collected data";
+            return "Can't find collected data";*/
 
-        processInstanceId = collectedData.get(0).getWorkflowData().getBusinessWorkflowProcessInstanceId();
+        String processInstanceId = collectedDataList.get(0).getWorkflowData().getBusinessWorkflowProcessInstanceId();
         if (processInstanceId == null)
             return "ProcessId is corrupted.";
-        workflowData = collectedData.get(0).getWorkflowData().getBusinessWorkflowModelId();
+        String workflowData = collectedDataList.get(0).getWorkflowData().getBusinessWorkflowModelId();
         if (workflowData == null)
             return "can't find data regarding the chosen workflow ";
 
-        query = new Query();
+/*        query = new Query();
         query.addCriteria(Criteria.where("taskId").is(taskId));
         List<MeasureTask> mt = mongoTemplate.find(query, MeasureTask.class);
         if (!mt.isEmpty()) {
@@ -139,56 +152,71 @@ public class BusPhase4InteractionImplementation implements BusPhase4Interaction 
         } else {
             return "can't find measure task!";
         }
-        for (CollectedData cd : collectedData) {
-            data.add(cd.getValue());
-        }
-        DTOPhase56 dtoPhase56 = new DTOPhase56();
-        dtoPhase56.setBusinessWorkFlowInstanceId(processInstanceId);
-        dtoPhase56.setData(new JSONArray(data.toArray(new String[0])).toString());
-        dtoPhase56.setDataId(taskId);
-        dtoPhase56.setMetricRef(metric);
-        dtoPhase56.setStrategyRef(workflowData);
+        */
 
 
-        try {
+        String finalResponse = "";
+        for (CollectedData cd : collectedDataList) {
 
-            JSONObject obj = new JSONObject();
-            obj.put("objIdLocalToPhase", dtoPhase56.getDataId());
-            obj.put("typeObj", "validateData");
-            obj.put("instance", dtoPhase56.getDataId());
-            obj.put("tags", "[]" /*"[{\"key\": \"TaskId\", \"value\": \""+dtoPhase56.getDataId()+"\"}]"*/);
-            JSONObject dataJSON = new JSONObject(dtoPhase56);
-            obj.put("payload", dataJSON.toString());
-            String s = obj.toString();
 
-            BusMessage message = new BusMessage(BusMessage.OPERATION_CREATE,hostSettings.getPhaseName(), obj.toString());
-            String response = message.send(hostSettings.getBusUri());
-            System.out.println(response);
-            String err;
-            try {
-                err = new JSONObject(response).getString("err");
-            } catch (JSONException e) {
-                //il messaggio non ha dato errori
-                return response;
+            if(cd.isValidated()){
+
+
+                DTOPhase56 dtoPhase56 = new DTOPhase56();
+                dtoPhase56.setBusinessWorkFlowInstanceId(processInstanceId);
+                dtoPhase56.setData(cd.getValue());
+                dtoPhase56.setDataId(cd.get_id());
+                dtoPhase56.setOntologyReference(measureTask.getOntology().getId());
+                dtoPhase56.setStrategyReference(workflowData);
+                dtoPhase56.setAttributeMeasured(measureTask.getAttribute());
+
+
+                try {
+
+                    JSONObject obj = new JSONObject();
+                    obj.put("objIdLocalToPhase", dtoPhase56.getDataId());
+                    obj.put("typeObj", BusObjectTypes.VALIDATED_DATA);
+                    obj.put("instance", dtoPhase56.getDataId());
+                    obj.put("tags", "[]" /*"[{\"key\": \"TaskId\", \"value\": \""+dtoPhase56.getDataId()+"\"}]"*/);
+                    JSONObject dataJSON = new JSONObject(dtoPhase56);
+                    obj.put("payload", dataJSON.toString());
+                    String s = obj.toString();
+
+                    BusMessage message = new BusMessage(BusMessage.OPERATION_CREATE,hostSettings.getPhaseName(), obj.toString());
+                    String response = message.send(hostSettings.getBusUri());
+                    System.out.println(response);
+                    String err = null;
+                    try {
+                        err = new JSONObject(response).getString("err");
+                    } catch (JSONException e) {
+                        //il messaggio non ha dato errori
+                        finalResponse =  response;
+                    }
+                    if (err.equals("ERR4")) {
+                        //"The object seems to be already created" provo la update
+                        message = new BusMessage(BusMessage.OPERATION_UPDATE, hostSettings.getPhaseName(), obj.toString());
+                        response = message.send(hostSettings.getBusUri());
+                        System.out.println(response);
+
+                    }
+                    finalResponse =  response;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    finalResponse = "It seems bus is not longer avaiable";
+                } catch (BusException e) {
+                    e.printStackTrace();
+                    finalResponse = "Error on bus message creation";
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    finalResponse = "Error while creating a json object";
+                }
+
+
             }
-            if (err.equals("ERR4")) {
-                //"The object seems to be already created" provo la update
-                message = new BusMessage(BusMessage.OPERATION_UPDATE, hostSettings.getPhaseName(), obj.toString());
-                response = message.send(hostSettings.getBusUri());
-                System.out.println(response);
-
-            }
-            return response;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "It seems bus is not longer avaiable";
-        } catch (BusException e) {
-            e.printStackTrace();
-            return "Error on bus message creation";
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return "Error while creating a json object";
         }
 
+
+
+        return finalResponse;
     }
 }
